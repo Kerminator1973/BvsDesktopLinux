@@ -1,7 +1,8 @@
 ﻿using System;
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.FontAwesome;
 
 namespace BvsDesktopLinux
 {
@@ -19,6 +20,8 @@ namespace BvsDesktopLinux
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .WithIcons(container => container           // FontAwesome: https://github.com/Projektanker/Icons.Avalonia
+                    .Register<FontAwesomeIconProvider>());
     }
 }
