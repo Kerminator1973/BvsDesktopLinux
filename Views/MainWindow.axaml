@@ -26,17 +26,19 @@
 
 		<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 0">
 			<!-- Могут быть использованы префиксы: fas (solid), far (regular) и fab (brands) -->
-			<Button i:Attached.Icon="fas fa-redo" />
-			<Button i:Attached.Icon="fas fa-file-excel" Margin="5,0,0,0" />
+			<Button i:Attached.Icon="fas fa-redo" FontSize="20" />
+			<Button i:Attached.Icon="far fa-file-excel" FontSize="20" Margin="5,0,0,0" />
 		</StackPanel>
 
 		<Border Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="2" CornerRadius="8" 
 				   Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" >
 			<TextBlock Text="Bill Report" Foreground="White" Background="LightSkyBlue" 
-				   FontSize="16" HorizontalAlignment="Center"/>
+				   FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</Border>
 		
-		<Button i:Attached.Icon="fas fa-trash" Grid.Row="0" Grid.Column="2" Margin="10, 10, 10, 0" />
+		<Button i:Attached.Icon="fas fa-trash-alt" FontSize="20" Margin="10, 10, 10, 0"
+				Foreground="Red"
+				Grid.Row="0" Grid.Column="2" />
 		
 		<DataGrid AutoGenerateColumns="True" Items="{Binding Banknotes}" Margin="10"
 				  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
