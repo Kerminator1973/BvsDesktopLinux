@@ -26,8 +26,12 @@
 
 		<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 0">
 			<!-- Могут быть использованы префиксы: fas (solid), far (regular) и fab (brands) -->
-			<Button i:Attached.Icon="fas fa-redo" FontSize="20" />
-			<Button i:Attached.Icon="far fa-file-excel" FontSize="20" Margin="5,0,0,0" />
+			<Button  Margin="0,0,5,0">
+				<Border BorderThickness="4">
+					<i:Icon Value="fas fa-redo" FontSize="20" />
+				</Border>
+			</Button>
+			<Button FontSize="20" i:Attached.Icon="far fa-file-excel" />
 		</StackPanel>
 
 		<Border Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="2" CornerRadius="8" 

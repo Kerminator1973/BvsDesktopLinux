@@ -63,6 +63,16 @@ Grid в Avalonia не имеет свойства **ColSpan**, но есть **C
 
 Свойства отвечающие за размещение текста внутри TextBlock имеют другое название. Например, в WPF используется HorizontalContentAlignment, тогда как в Avalonia следует использовать **HorizontalAlignment**.
 
+В Avalonia нет атрибута Padding, который приходится реализовывать через Border, либо через вложенный Grid. Вариант добавления _padding_ через **Border**:
+
+``` xml
+<Button  Margin="0,0,5,0">
+    <Border BorderThickness="4">
+        <i:Icon Value="fas fa-redo" FontSize="20" />
+    </Border>
+</Button>
+```
+
 ## FontAwesome
 
 Для Avalonia следует использовать библиотеки работы с иконками отличные от применяемых в WPF. Одним из вариантов является [FontAwesome.Avaloia](https://github.com/Projektanker/Icons.Avalonia) от Projektanker.
