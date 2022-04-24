@@ -13,6 +13,14 @@ dotnet new sln
 dotnet sln add BvsDesktopLinux.csproj
 ```
 
+Установка Git и загрузка репозитария из GitHub:
+
+```
+sudo apt-get update
+sudo apt-get install git
+git clone https://github.com/Kerminator1973/BvsDesktopLinux.git
+```
+
 Команды сборки и запуска приложения:
 
 ```
