@@ -18,21 +18,9 @@ namespace BvsDesktopLinux.ViewModels
         {
             var defaultBanknotes = new List<Banknote>()
             {
-                new Banknote()
-                {
-                    Currency = "RUB",
-                    Denomination = "10"
-                },
-                new Banknote()
-                {
-                    Currency = "RUB",
-                    Denomination = "50"
-                },
-                new Banknote()
-                {
-                    Currency = "RUB",
-                    Denomination = "100"
-                }
+                new Banknote { Currency = "RUB", Denomination = "10" },
+                new Banknote { Currency = "RUB", Denomination = "50" },
+                new Banknote { Currency = "RUB", Denomination = "100" }
             };
 
             return defaultBanknotes;
