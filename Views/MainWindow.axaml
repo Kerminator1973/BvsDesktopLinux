@@ -9,10 +9,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="BvsDesktopLinux">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="auto" />
