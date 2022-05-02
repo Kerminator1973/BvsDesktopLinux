@@ -218,3 +218,30 @@ public class MainWindowViewModel : ViewModelBase
 ```
 
 Заметим, что приложение будет загружать данные из файла "banknotes.db" только если этот файл будет существовать.
+
+## Работа с миграциями
+
+После установки package `Microsoft.EntityFrameworkCore.Design` появляется возможность работать с миграциями в проекте. Например, можно добавить первую миграцию командой:
+
+``` shell
+dotnet ef migrations add InitialCreate
+```
+
+Для PowerShell используется команда **Add-Migration**:
+
+``` powershell
+Add-Migration TheBadMigration -Force
+```
+
+После того, как миграция успешно создана в коде приложения можно применить миграцию к существующей базе данных:
+
+``` csharp
+public MainWindowViewModel()
+{
+    BanknotesDbContext _dbContext = new();
+    _dbContext.Database.Migrate();
+```
+
+Следует заметить, что применять миграцию нужно там, где создаётся сервис доступа к базе данных. Чаще всего - это StartUp-метод класса Application.
+
+Метод EnsureCreated() похож на **Migrate**(), но он испольузется не для промышленной эксплуатации, а для [тестирования кода](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.infrastructure.databasefacade.ensurecreated?view=efcore-6.0). Этот метод проверяет наличие базы данных и если не обнаруживает её, то создаёт актуальную схему.
