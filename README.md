@@ -115,3 +115,31 @@ class Program
 ```
 
 В библиотеке могут быть использованы префиксы: fas (_solid_), far (_regular_) и fab (_brands_). Префиксы соответствуют шруппам иконок из бесплатного набора иконок [FontAwesome](https://fontawesome.com/icons). Полный набор иконок содержащихся в компоненте находится в [icons.json](https://github.com/Projektanker/Icons.Avalonia/blob/main/src/Projektanker.Icons.Avalonia.FontAwesome/Assets/icons.json) в папке Assets.
+
+## Добавление базы данных SQL
+
+Создать db-файл можно используя plug-in VSCode [SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite) by alexcvzz.
+
+В палитре команд следует выбрать пункт "SQLite: New Query". В появившемся окне текстового редактора следует ввести команду создания таблицыm например:
+
+``` sql
+CREATE TABLE Banknotes (
+   Id INTEGER PRIMARY KEY AUTOINCREMENT,
+   Currency TEXT NOT NULL,
+   Denomination TEXT NOT NULL
+);
+```
+
+Затем в контекстном меню текстового редактора выбрать пункт "Run Query". При выполнении команды будет автоматически создан файл "banknotes.db" (по имени таблицы).
+
+Для добавления нескольких записей в таблицу следует выполнить команду:
+
+``` sql
+INSERT INTO Banknotes (Currency,Denomination)
+VALUES
+    ('RUB','500'),
+    ('RUB','1000'),
+    ('RUB','2000');
+```
+
+Просматривать содержимое базы данных можно через инструмент SQLite Explorer в "Проводнике" VSCode.
