@@ -143,3 +143,78 @@ VALUES
 ```
 
 Просматривать содержимое базы данных можно через инструмент SQLite Explorer в "Проводнике" VSCode.
+
+## Работа с базой данных на SQLite
+
+В соответствии с шаблоном проектирования MVVM, классы с версткой должны обладать слабыми связями с моделью. При создании главного окна может быть создан DataContext главного окна:
+
+``` csharp
+public partial class App : Application
+{
+    ...
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = new MainWindowViewModel(),
+            };
+        }
+
+        base.OnFrameworkInitializationCompleted();
+    }
+}
+```
+
+Заметим, что в XAML-разметке **не должно быть** определения статической модели:
+
+``` xml
+<Design.DataContext>
+    <vm:MainWindowViewModel/>
+</Design.DataContext>
+```
+
+Подключить Entity Framework и SQLite можно добавив через Nuget packages `Microsoft.EntityFrameworkCore` и `Microsoft.EntityFrameworkCore.Sqlite`
+
+Следующим этапом следует скорректировать модель, добавив в неё поле Id, чтобы соответствовать _Conventions_ Entity Framework:
+
+``` csharp
+public class Banknote
+{
+    public int Id { get; set; }
+    public string Currency { get; set; }
+    public string Denomination { get; set; }
+}
+```
+
+Далее необходимо создать DbContext:
+
+``` csharp
+public class BanknotesDbContext : DbContext
+{
+    public DbSet<Banknote> Banknotes { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlite("Data Source=banknotes.db");
+    }
+}
+```
+
+После этого в классе ModelView можно использовать BanknotesDbContext, например:
+
+``` csharp
+public class MainWindowViewModel : ViewModelBase
+{
+    public ObservableCollection<Banknote> Banknotes { get; }
+
+    public MainWindowViewModel()
+    {
+        BanknotesDbContext _dbContext = new();
+        Banknotes = new ObservableCollection<Banknote>(_dbContext.Banknotes);
+    }
+}
+```
+
+Заметим, что приложение будет загружать данные из файла "banknotes.db" только если этот файл будет существовать.
