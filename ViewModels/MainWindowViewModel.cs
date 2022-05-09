@@ -1,11 +1,9 @@
 ﻿using Avalonia.Metadata;
 using BvsDesktopLinux.Models;
-using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace BvsDesktopLinux.ViewModels
 {
