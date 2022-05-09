@@ -37,5 +37,18 @@ namespace BvsDesktopLinux.ViewModels
             // из таблицы Banknotes базы данных
             Banknotes = new ObservableCollection<Banknote>(_dbContext.Banknotes);
         }
+
+        // Обработчик нажатия на кнопку в пользовательском интерфейсе приложения
+        public void RestoreCounts(string currency)
+        {
+            // Сбрасываем старые пересчёты
+            Banknotes.Clear();
+
+            // Добавляем в список несколько описаний "принятых" купюр для имитации взноса
+            Banknotes.Add(new Banknote { Id = 4, Currency = currency, Denomination = "200" });
+            Banknotes.Add(new Banknote { Id = 5, Currency = currency, Denomination = "100" });
+            Banknotes.Add(new Banknote { Id = 6, Currency = currency, Denomination = "2000" });
+            Banknotes.Add(new Banknote { Id = 7, Currency = currency, Denomination = "5000" });
+        }
     }
 }
