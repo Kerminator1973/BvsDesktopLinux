@@ -291,10 +291,42 @@ public void RestoreCounts(string currency)
 public bool CanRestoreCounts()
 ```
 
-Метод CanUpdate() можно использовать совместно с атрибцтами ViewModel, как показано в приведённом ниже примере, но, в действительности, этот механизм не достаточно универсален и, например, для отслеживания изменения SelectedItem списка GridView необходима добавлять специализированный метод вручную:
+Метод CanUpdate() можно использовать совместно с атрибцтами ViewModel, как показано в приведённом ниже примере:
 
 ``` csharp
 [DependsOn(nameof(SelectedBanknote))]
+public bool CanDeleteBanknote(/* CommandParameter */object parameter)
+{
+    return null != SelectedBanknote;
+}
+```
+
+В действительности, этот механизм не достаточно универсален и, например, для отслеживания изменения SelectedItem списка GridView необходима добавлять специализированный метод вручную:
+
+``` csharp
+// Для того, чтобы связать событие изменения SelectedBanknote, осуществляемое
+// через DataGrid и метод CanUpdate() кнопки "Delete Item", необходимо выполнить
+// ряд дополнительных действий вручную
+public event PropertyChangedEventHandler? PropertyChanged;
+
+bool IsBanknoteSelected = false;
+public Banknote? SelectedBanknote {
+    get { return selectedBanknote; }
+    set
+    {
+        if (value == selectedBanknote)
+            return;
+        selectedBanknote = value;
+
+        // Информируем подписчиков (метод CanDeleteBanknote) об изменении состояния
+        // SelectedBanknote, косвенным способом через изменение свойства IsBanknoteSelected
+        IsBanknoteSelected = (null != selectedBanknote);
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBanknoteSelected)));
+    } 
+}
+
+// Метод CanDeleteBanknote() будет вызываться если измениться свойство IsBanknoteSelected
+[DependsOn(nameof(IsBanknoteSelected))]
 public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 {
     return null != SelectedBanknote;
