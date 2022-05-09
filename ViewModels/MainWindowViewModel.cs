@@ -10,6 +10,9 @@ namespace BvsDesktopLinux.ViewModels
         // Контейнер используется в XAML как источник данных DataGrid
         public ObservableCollection<Banknote> Banknotes { get; }
 
+        // Выбранная пользователем банкнота
+        public Banknote? SelectedBanknote { get; set; }
+
         public MainWindowViewModel()
         {
             BanknotesDbContext _dbContext = new();
@@ -49,6 +52,14 @@ namespace BvsDesktopLinux.ViewModels
             Banknotes.Add(new Banknote { Id = 5, Currency = currency, Denomination = "100" });
             Banknotes.Add(new Banknote { Id = 6, Currency = currency, Denomination = "2000" });
             Banknotes.Add(new Banknote { Id = 7, Currency = currency, Denomination = "5000" });
+        }
+
+        public void DeleteBanknote()
+        {
+            if (null != SelectedBanknote)
+            {
+                Banknotes.Remove(SelectedBanknote);
+            }
         }
     }
 }

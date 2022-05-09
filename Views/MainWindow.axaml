@@ -36,11 +36,13 @@
 				   FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</Border>
 		
-		<Button i:Attached.Icon="fas fa-trash-alt" FontSize="20" Margin="10, 10, 10, 0"
-				Foreground="Red"
+		<Button i:Attached.Icon="fas fa-trash-alt" FontSize="20" 
+				Foreground="Red" Margin="10, 10, 10, 0"
+				Command="{Binding DeleteBanknote}" 
 				Grid.Row="0" Grid.Column="2" />
 		
-		<DataGrid AutoGenerateColumns="True" Items="{Binding Banknotes}" Margin="10"
+		<DataGrid AutoGenerateColumns="True" Margin="10"
+				  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
 				  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
 	</Grid>
 </Window>
