@@ -1,18 +1,42 @@
 ﻿using Avalonia.Metadata;
 using BvsDesktopLinux.Models;
+using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BvsDesktopLinux.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         // Контейнер используется в XAML как источник данных DataGrid
         public ObservableCollection<Banknote> Banknotes { get; }
 
         // Выбранная пользователем банкнота
-        public Banknote? SelectedBanknote { get; set; }
+        private Banknote? selectedBanknote = null;
+
+        // Для того, чтобы связать событие изменения SelectedBanknote, осуществляемое
+        // через DataGrid и метод CanUpdate() кнопки "Delete Item", необходимо выполнить
+        // ряд дополнительных действий вручную
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        bool IsBanknoteSelected = false;
+        public Banknote? SelectedBanknote {
+            get { return selectedBanknote; }
+            set
+            {
+                if (value == selectedBanknote)
+                    return;
+                selectedBanknote = value;
+
+                // Информируем подписчиков (метод CanDeleteBanknote) об изменении состояния
+                // SelectedBanknote, косвенным способом через изменение свойства IsBanknoteSelected
+                IsBanknoteSelected = (null != selectedBanknote);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBanknoteSelected)));
+            } 
+        }
 
         public MainWindowViewModel()
         {
@@ -63,7 +87,8 @@ namespace BvsDesktopLinux.ViewModels
             }
         }
 
-        [DependsOn(nameof(SelectedBanknote))]
+        // Метод CanDeleteBanknote() будет вызываться если измениться свойство IsBanknoteSelected
+        [DependsOn(nameof(IsBanknoteSelected))]
         public bool CanDeleteBanknote(/* CommandParameter */object parameter)
         {
             return null != SelectedBanknote;
