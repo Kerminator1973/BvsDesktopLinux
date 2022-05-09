@@ -1,22 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BvsDesktopLinux", "BvsDesktopLinux.csproj", "{93A6A9AD-426B-4CA2-9A73-4FBDB966F58A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BvsDesktopLinux", "BvsDesktopLinux\BvsDesktopLinux.csproj", "{93A6A9AD-426B-4CA2-9A73-4FBDB966F58A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BvsDesktopUnitTest", "BvsDesktopUnitTest\BvsDesktopUnitTest.csproj", "{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{93A6A9AD-426B-4CA2-9A73-4FBDB966F58A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93A6A9AD-426B-4CA2-9A73-4FBDB966F58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A6A9AD-426B-4CA2-9A73-4FBDB966F58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A6A9AD-426B-4CA2-9A73-4FBDB966F58A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CBA46D94-D136-4D01-9EDA-1C34909ED6AF}
 	EndGlobalSection
 EndGlobal
