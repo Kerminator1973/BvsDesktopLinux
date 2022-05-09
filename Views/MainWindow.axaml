@@ -42,7 +42,7 @@
 				Grid.Row="0" Grid.Column="2" />
 		
 		<DataGrid AutoGenerateColumns="True" Margin="10"
-				  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
+				  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote, Mode=TwoWay}"
 				  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
 	</Grid>
 </Window>

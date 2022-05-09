@@ -1,4 +1,5 @@
-﻿using BvsDesktopLinux.Models;
+﻿using Avalonia.Metadata;
+using BvsDesktopLinux.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -60,6 +61,12 @@ namespace BvsDesktopLinux.ViewModels
             {
                 Banknotes.Remove(SelectedBanknote);
             }
+        }
+
+        [DependsOn(nameof(SelectedBanknote))]
+        public bool CanDeleteBanknote(/* CommandParameter */object parameter)
+        {
+            return null != SelectedBanknote;
         }
     }
 }

@@ -245,3 +245,58 @@ public MainWindowViewModel()
 Следует заметить, что применять миграцию нужно там, где создаётся сервис доступа к базе данных. Чаще всего - это StartUp-метод класса Application.
 
 Метод EnsureCreated() похож на **Migrate**(), но он испольузется не для промышленной эксплуатации, а для [тестирования кода](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.infrastructure.databasefacade.ensurecreated?view=efcore-6.0). Этот метод проверяет наличие базы данных и если не обнаруживает её, то создаёт актуальную схему.
+
+## Реализация команд в Avalonia
+
+Добавление команд в Avalonia UI осуществляется не так, как в WPF. Первое отличие состоит в том, что WPF использует специальный класс RoutedUICommand, в котором определяется статический класс, описывающий команду:
+
+``` csharp
+public static class CustomCommands
+{
+    public static readonly RoutedUICommand Exit = new RoutedUICommand
+        (
+            "Exit",
+            "Exit",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.F4, ModifierKeys.Alt)
+            }
+        );
+
+    // Define more commands here, just like the one above
+}
+```
+
+Определённая команда может использоваться, практически, везде - в меню, кнопках, контекстном меню. В Avalonia UI команда определяется как часть ViewModel, см. [Binding to Commands](https://docs.avaloniaui.net/docs/data-binding/binding-to-commands#icommandexecute). Пример:
+
+``` xml
+<Button Margin="0,0,5,0" Command="{Binding RestoreCounts}" CommandParameter="RUB" />
+```
+
+``` csharp
+public void RestoreCounts(string currency)
+{
+    Banknotes.Clear();
+    Banknotes.Add(new Banknote { Id = 4, Currency = currency, Denomination = "200" });
+    Banknotes.Add(new Banknote { Id = 5, Currency = currency, Denomination = "100" });
+    Banknotes.Add(new Banknote { Id = 6, Currency = currency, Denomination = "2000" });
+    Banknotes.Add(new Banknote { Id = 7, Currency = currency, Denomination = "5000" });
+}
+```
+
+По другому работает механизм **CanExecute** - в Avalonia достаточно просто определить метод такой же, как и у команды, но начинающийся с Can:
+
+``` csharp
+public bool CanRestoreCounts()
+```
+
+Метод CanUpdate() можно использовать совместно с атрибцтами ViewModel, как показано в приведённом ниже примере, но, в действительности, этот механизм не достаточно универсален и, например, для отслеживания изменения SelectedItem списка GridView необходима добавлять специализированный метод вручную:
+
+``` csharp
+[DependsOn(nameof(SelectedBanknote))]
+public bool CanDeleteBanknote(/* CommandParameter */object parameter)
+{
+    return null != SelectedBanknote;
+}
+```
