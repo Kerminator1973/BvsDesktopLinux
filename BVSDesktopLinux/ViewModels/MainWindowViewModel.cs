@@ -65,7 +65,7 @@ namespace BvsDesktopLinux.ViewModels
         }
 
         // Обработчик нажатия на кнопку в пользовательском интерфейсе приложения
-        public void RestoreCounts(string currency)
+        public int RestoreCounts(string currency)
         {
             // Сбрасываем старые пересчёты
             Banknotes.Clear();
@@ -75,6 +75,8 @@ namespace BvsDesktopLinux.ViewModels
             Banknotes.Add(new Banknote { Id = 5, Currency = currency, Denomination = "100" });
             Banknotes.Add(new Banknote { Id = 6, Currency = currency, Denomination = "2000" });
             Banknotes.Add(new Banknote { Id = 7, Currency = currency, Denomination = "5000" });
+
+            return Banknotes.Count;
         }
 
         public void DeleteBanknote()

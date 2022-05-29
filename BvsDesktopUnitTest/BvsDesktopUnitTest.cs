@@ -6,12 +6,19 @@ namespace BvsDesktopTests
     [TestClass]
     public class UnitTestViewModel
     {
+        public MainWindowViewModel mainViewModel = new();
+
+        // Статья об инициализации тестов:
+        // https://www.c-sharpcorner.com/UploadFile/dacca2/test-initialize-and-test-setup/
+        [TestInitialize]
+        public void TestInit()
+        {
+        }
+
         [TestMethod]
         public void TestRestoreCounts()
         {
-            MainWindowViewModel mainViewModel = new();
-            mainViewModel.RestoreCounts("CNY");
-            var count = mainViewModel.Banknotes.Count;
+            var count = mainViewModel.RestoreCounts("CNY");
 
             // Должно быть четыре элемента, а валюта каждого - "CNY" (китайские юани)
             Assert.IsTrue(count == 4);
@@ -21,15 +28,14 @@ namespace BvsDesktopTests
         [TestMethod]
         public void TestDeleteBanknote()
         {
-            MainWindowViewModel mainViewModel = new();
-            mainViewModel.RestoreCounts("CNY");
-            var count = mainViewModel.Banknotes.Count;
+            var count = mainViewModel.RestoreCounts("CNY");
+
             Assert.IsTrue(count == 4);
 
             // Вручную устанавливаем текущий выбранный элемент на нулевой элемент списка
             mainViewModel.SelectedBanknote = mainViewModel.Banknotes[0];
 
-            var denomination = mainViewModel.Banknotes[0].Denomination;
+            var denomination = mainViewModel.SelectedBanknote.Denomination;
 
             // Вызываем команду удаление строки DataGrid
             mainViewModel.DeleteBanknote();
