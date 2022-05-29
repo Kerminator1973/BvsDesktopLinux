@@ -35,16 +35,34 @@ namespace BvsDesktopTests
             <p style=""text-align: center; margin: 0px; padding: 10px; font: bold 20px serif"">UIN: D820-001-00000775</p>
         ");
 
-        [TestMethod]
-        public void TestRegExSimple()
+        private void matchUIN(Regex reUIN)
         {
-            Regex reUIN = new Regex(@">UIN:.*?<\/p>");
             Match m = reUIN.Match(htmlUinHeader);
             Assert.IsTrue(m.Success);
             Assert.IsTrue(m.Value.Length > 9);
 
             var uin = m.Value.Substring(5, m.Value.Length - 9).Trim();
             Assert.IsTrue(uin == "D820-001-00000775");
+        }
+
+        [TestMethod]
+        public void TestRegExSimple()
+        {
+            var reUIN = new Regex(@">UIN:.*?<\/p>");
+            for(int i = 0; i < 100000; i++)
+            {
+                matchUIN(reUIN);
+            }
+        }
+
+        [TestMethod]
+        public void TestRegExSimpleCompiled()
+        {
+            var reUIN = new Regex(@">UIN:.*?<\/p>", RegexOptions.Compiled);
+            for (int i = 0; i < 100000; i++)
+            {
+                matchUIN(reUIN);
+            }
         }
     }
 }
