@@ -81,7 +81,12 @@ namespace BvsDesktopLinux.ViewModels
 
         public void PrintReport()
         {
-            // TODO: Выполняем печать отчёта
+            // В Avalonia нет класса PrintDialog и FlowDocument. По этой причине, необходимо
+            // использовать другие подходы для реализации печати, или экспорта в PDF
+            //
+            // https://github.com/Oaz/AvaloniaUI.PrintToPDF
+            // https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Diagnostics/Diagnostics/VisualExtensions.cs#L56
+            // https://github.com/jp2masa/Movere
         }
 
         public void DeleteBanknote()
