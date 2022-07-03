@@ -83,7 +83,7 @@ Grid в Avalonia не имеет свойства **ColSpan**, но есть **C
 
 ## FontAwesome
 
-Для Avalonia следует использовать библиотеки работы с иконками отличные от применяемых в WPF. Одним из вариантов является [FontAwesome.Avaloia](https://github.com/Projektanker/Icons.Avalonia) от Projektanker.
+Для Avalonia следует использовать библиотеки работы с иконками отличные от применяемых в WPF. Одним из вариантов является [FontAwesome.Avalonia](https://github.com/Projektanker/Icons.Avalonia) от Projektanker.
 
 Чтобы начать использовать библиотеку необходимо в Program.cs добавить специализированный провайдер иконок:
 
@@ -114,7 +114,24 @@ class Program
 <Button i:Attached.Icon="fas fa-redo" FontSize="20" />
 ```
 
-В библиотеке могут быть использованы префиксы: fas (_solid_), far (_regular_) и fab (_brands_). Префиксы соответствуют шруппам иконок из бесплатного набора иконок [FontAwesome](https://fontawesome.com/icons). Полный набор иконок содержащихся в компоненте находится в [icons.json](https://github.com/Projektanker/Icons.Avalonia/blob/main/src/Projektanker.Icons.Avalonia.FontAwesome/Assets/icons.json) в папке Assets.
+В библиотеке могут быть использованы префиксы: fas (_solid_), far (_regular_) и fab (_brands_). Префиксы соответствуют группам иконок из бесплатного набора иконок [FontAwesome](https://fontawesome.com/icons). 
+
+Полный набор иконок содержащихся в компоненте находится в [icons.json](https://github.com/Projektanker/Icons.Avalonia/blob/main/src/Projektanker.Icons.Avalonia.FontAwesome/Assets/icons.json) в папке Assets. В "icons.json" можно выполнять полнотекстовый поиск по ожидаемому названию иконки. Например, для поиска иконки принтера следует искать вхождение слова "print", как узла верхнего уровня:
+
+```json
+  "print": {
+    "styles": [
+      "solid"
+    ],
+    "label": "print",
+    "svg": { ...
+```
+
+Ключевым является свойство "styles", из которого следует, какой именно префикс следует использовать для данной иконки. Например, если в списке есть стиль "solid", то следует использовать класс иконки "fas":
+
+```xml
+<i:Icon Value="fas fa-print" FontSize="20" />
+```
 
 ## Добавление базы данных SQL
 

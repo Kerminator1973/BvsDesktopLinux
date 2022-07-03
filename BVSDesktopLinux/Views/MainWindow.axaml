@@ -28,6 +28,12 @@
 				</Border>
 			</Button>
 			<Button FontSize="20" i:Attached.Icon="far fa-file-excel" />
+			<Button Margin="5,0,5,0" Command="{Binding PrintReport}">
+				<Border BorderThickness="4">
+					<i:Icon Value="fas fa-print" FontSize="20" />
+				</Border>
+			</Button>
+
 		</StackPanel>
 
 		<Border Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="2" CornerRadius="8" 

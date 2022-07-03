@@ -79,6 +79,11 @@ namespace BvsDesktopLinux.ViewModels
             return Banknotes.Count;
         }
 
+        public void PrintReport()
+        {
+            // TODO: Выполняем печать отчёта
+        }
+
         public void DeleteBanknote()
         {
             if (null != SelectedBanknote)
