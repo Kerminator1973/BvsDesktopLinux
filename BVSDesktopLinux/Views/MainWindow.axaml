@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="200"
+		xmlns:p="clr-namespace:BvsDesktopLinux.Properties"
+	        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="200"
         x:Class="BvsDesktopLinux.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="BvsDesktopLinux">
@@ -38,7 +39,7 @@
 
 		<Border Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="2" CornerRadius="8" 
 				   Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" >
-			<TextBlock Text="Bill Report" Foreground="White" Background="LightSkyBlue" 
+			<TextBlock Text="{x:Static p:Resources.TitleBillReport}" Foreground="White" Background="LightSkyBlue" 
 				   FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</Border>
 		
