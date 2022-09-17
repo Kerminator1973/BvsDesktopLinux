@@ -391,3 +391,45 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 ## Локализация приложений
 
 Механизм локализации работает точно также как и для WPF-приложения в Windows. См.: https://github.com/Kerminator1973/BVSDesktopSupport/blob/main/i18n.md
+
+Обработка параметров командной строки с целью установки локализации должна быть выполнена до создания главного окна. Фактический код:
+
+``` csharp
+public override void OnFrameworkInitializationCompleted()
+{
+    if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+    {
+        // Обрабатываем параметры командной строки с целью явным образом
+        // указать локализацию. Это особенно удобно для того, чтобы выполнять
+        // тестирование и отладку локализованных сообщений
+        ParseCommandLine(Environment.GetCommandLineArgs());
+
+        // Создаём основное окно
+        desktop.MainWindow = new MainWindow
+        {
+            DataContext = new MainWindowViewModel(),
+        };
+    }
+
+    // Инициализация приложения завершена, можно визуализировать
+    // пользовательский интерфейс
+    base.OnFrameworkInitializationCompleted();
+}
+```
+
+Заметим, что параметры командной строки можно получить в любом месте приложения, используя статический метод GetCommandLineArgs() класса Environment.
+
+Установка локализации в коде осуществляется так:
+
+``` csharp
+var culture = new System.Globalization.CultureInfo("ru-RU");
+System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
+Thread.CurrentThread.CurrentCulture = culture;
+```
+
+Запуск приложения с указанием локализации может быть таким:
+
+``` shell
+dotnet run -locale en
+dotnet run -locale ru-RU
+```
