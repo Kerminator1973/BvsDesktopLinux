@@ -49,7 +49,6 @@ namespace BvsDesktopLinux
                     if (comparison == 0)
                     {
                         bIsLocale = true;
-
                     }
                 }
                 else
@@ -71,6 +70,5 @@ namespace BvsDesktopLinux
                 }
             }
         }
-
     }
 }

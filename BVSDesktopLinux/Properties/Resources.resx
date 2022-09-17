@@ -129,4 +129,16 @@
   <data name="TitleBillReport" xml:space="preserve">
     <value>Bill Report</value>
   </data>
+  <data name="TooltipDeleteNotes" xml:space="preserve">
+    <value>Remove Selected Notes</value>
+  </data>
+  <data name="TooltipExportCSV" xml:space="preserve">
+    <value>Export Data to CSV file</value>
+  </data>
+  <data name="TooltipPrintReport" xml:space="preserve">
+    <value>Print Report as PDF</value>
+  </data>
+  <data name="TooltipRestoreCounts" xml:space="preserve">
+    <value>Load Counts from Local Database</value>
+  </data>
 </root>

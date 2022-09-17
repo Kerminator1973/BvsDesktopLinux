@@ -95,5 +95,41 @@ namespace BvsDesktopLinux.Properties {
                 return ResourceManager.GetString("TitleBillReport", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Selected Notes.
+        /// </summary>
+        public static string TooltipDeleteNotes {
+            get {
+                return ResourceManager.GetString("TooltipDeleteNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export Data to CSV file.
+        /// </summary>
+        public static string TooltipExportCSV {
+            get {
+                return ResourceManager.GetString("TooltipExportCSV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print Report as PDF.
+        /// </summary>
+        public static string TooltipPrintReport {
+            get {
+                return ResourceManager.GetString("TooltipPrintReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Counts from Local Database.
+        /// </summary>
+        public static string TooltipRestoreCounts {
+            get {
+                return ResourceManager.GetString("TooltipRestoreCounts", resourceCulture);
+            }
+        }
     }
 }

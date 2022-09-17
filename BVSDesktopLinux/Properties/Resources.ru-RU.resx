@@ -129,4 +129,16 @@
   <data name="TitleBillReport" xml:space="preserve">
     <value>Принятые купюры</value>
   </data>
+  <data name="TooltipDeleteNotes" xml:space="preserve">
+    <value>Удалить выделенные банкноты из списка</value>
+  </data>
+  <data name="TooltipExportCSV" xml:space="preserve">
+    <value>Экспортировать данные в CSV-файл</value>
+  </data>
+  <data name="TooltipPrintReport" xml:space="preserve">
+    <value>Сформировать PDF отчёт</value>
+  </data>
+  <data name="TooltipRestoreCounts" xml:space="preserve">
+    <value>Загрузить пересчёты из базы данных</value>
+  </data>
 </root>
