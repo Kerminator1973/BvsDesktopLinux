@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BvsDesktopLinux": {
+      "commandName": "Project",
+      "commandLineArgs": "-locale ru-RU"
+    }
+  }
+}
