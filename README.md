@@ -387,3 +387,7 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
     return null != SelectedBanknote;
 }
 ```
+
+## Локализация приложений
+
+Механизм локализации работает точно также как и для WPF-приложения в Windows. См.: https://github.com/Kerminator1973/BVSDesktopSupport/blob/main/i18n.md
