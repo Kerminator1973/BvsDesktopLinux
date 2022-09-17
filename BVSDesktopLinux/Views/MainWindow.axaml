@@ -47,9 +47,15 @@
 				Foreground="Red" Margin="10, 10, 10, 0"
 				Command="{Binding DeleteBanknote}" 
 				Grid.Row="0" Grid.Column="2" />
-		
-		<DataGrid AutoGenerateColumns="True" Margin="10"
+
+		<DataGrid AutoGenerateColumns="False" Margin="10"
 				  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote, Mode=TwoWay}"
-				  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
+				  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}"></DataGridTextColumn>
+				<DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" Binding="{Binding Currency}"></DataGridTextColumn>
+				<DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}"></DataGridTextColumn>
+			</DataGrid.Columns>
+		</DataGrid>
 	</Grid>
 </Window>

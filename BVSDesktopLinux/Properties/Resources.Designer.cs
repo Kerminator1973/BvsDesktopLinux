@@ -61,6 +61,33 @@ namespace BvsDesktopLinux.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        public static string NoteCurrency {
+            get {
+                return ResourceManager.GetString("NoteCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Denomination.
+        /// </summary>
+        public static string NoteDenomination {
+            get {
+                return ResourceManager.GetString("NoteDenomination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No..
+        /// </summary>
+        public static string NoteId {
+            get {
+                return ResourceManager.GetString("NoteId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bill Report.
         /// </summary>
         public static string TitleBillReport {
