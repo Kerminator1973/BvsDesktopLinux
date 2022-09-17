@@ -111,6 +111,36 @@ Grid в Avalonia не имеет свойства **ColSpan**, но есть **C
 </Button>
 ```
 
+## Всплывающие подсказки (ToolTips)
+
+В Avalonia UI можно легко добавить всплывающие подсказки к элементам пользовательского интерфейса, но разметка отличается от WPF.
+
+Типовая разметка в WPF:
+
+``` csharp
+<Button Grid.Column="0" Click="buttonAdd_Click" Padding="20,0,20,0">
+	<Button.ToolTip>
+		<ToolTip Content="{x:Static p:Resources.TooltipAddNewCounter}" />
+	</Button.ToolTip>
+	<fa:ImageAwesome Icon="Solid_Plus" Height="20" Width="20" Margin="5" PrimaryColor="LightSeaGreen"/>
+</Button>
+```
+
+Разметка в Avalonia UI:
+
+``` csharp
+<Button Margin="0,0,5,0" Command="{Binding RestoreCounts}" CommandParameter="RUB">
+	<ToolTip.Tip>
+		<ToolTip Background="Yellow" Foreground="Black">
+			<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipRestoreCounts}" />
+		</ToolTip>
+	</ToolTip.Tip>				
+	<Border BorderThickness="4">
+		<i:Icon Value="fas fa-redo" FontSize="20" />
+	</Border>
+</Button>
+```
+
 ## FontAwesome
 
 Для Avalonia следует использовать библиотеки работы с иконками отличные от применяемых в WPF. Одним из вариантов является [FontAwesome.Avalonia](https://github.com/Projektanker/Icons.Avalonia) от Projektanker.
