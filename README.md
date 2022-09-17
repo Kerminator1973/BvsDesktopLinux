@@ -2,6 +2,36 @@
 
 Порт приложения BVS Desktop в Linux с использованием Avalonia.
 
+## Установка .NET 6 в Ubuntu 22.04
+
+Установить Runtime:
+
+``` shell
+sudo apt-get update && \
+  sudo apt-get install -y dotnet6
+```
+
+Установить SDK: `sudo apt-get install -y dotnet-sdk-6.0`
+
+Проверить список установленных SDK: `dotnet --list-sdks`
+
+К сожалению, установка SDK не всегда работает. Я сталкивался с проблемой потери информации о SDK: https://github.com/dotnet/sdk/issues/27129
+
+**Решение**, которое помогло:
+
+1. Удалить предыдущие установки: `sudo apt remove --purge --autoremove *dotnet*`
+2. Создать, или модифицировать файл `/etc/apt/preferences` и добавить в него, если нужно, следующие строки (нужен **sudo**):
+
+```
+Package: *net*
+Pin: origin packages.microsoft.com
+Pin-Priority: 1001
+```
+
+Подробнее о настройке можно почитать здесь: `man apt_preferences`
+
+3. Загрузить .NET из правильного источника: `sudo apt install dotnet-sdk-6.0`
+
 ## Основные консольные команды
 
 Команды создания приложения:
