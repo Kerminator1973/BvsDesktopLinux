@@ -51,13 +51,15 @@ sudo apt-get install git
 git clone https://github.com/Kerminator1973/BvsDesktopLinux.git
 ```
 
-Команды сборки и запуска приложения:
+Команды сборки и запуска приложения (запуск из подкаталога с файлом .csproj):
 
 ```
 dotnet restore
 dotnet build
 dotnet run
 ```
+
+Запуск Unit-тестов: 'dotnet test'
 
 ## Различия в пространствах имён
 
