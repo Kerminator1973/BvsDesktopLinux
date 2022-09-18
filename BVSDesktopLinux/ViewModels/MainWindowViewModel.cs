@@ -1,9 +1,11 @@
 ﻿using Avalonia.Metadata;
 using BvsDesktopLinux.Models;
 using ReactiveUI;
+using SkiaSharp;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System;
 
 namespace BvsDesktopLinux.ViewModels
 {
@@ -93,6 +95,57 @@ namespace BvsDesktopLinux.ViewModels
             // https://github.com/Oaz/AvaloniaUI.PrintToPDF
             // https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Diagnostics/Diagnostics/VisualExtensions.cs#L56
             // https://github.com/jp2masa/Movere
+
+            // Не обязательно, на разумно: добавить мета-данные в PDF-документ
+            var metadata = new SKDocumentPdfMetadata
+            {
+                Author = "Maskim Rozhkov",
+                Creation = DateTime.Now,
+                Creator = "Maskim Rozhkov with SkiaSharp",
+                Keywords = "SkiaSharp, PDF, Developer, Library",
+                Modified = DateTime.Now,
+                Producer = "SkiaSharp",
+                Subject = "SkiaSharp Sample PDF",
+                Title = "Sample PDF",
+            };
+
+            using var doc = SKDocument.CreatePdf("SkiaSample.pdf", metadata);
+
+            // Критичное упрощение: все записи выводятся только на одну страницу,
+            // размер страницы фиксированный
+            float pageWidth = 840.0f;
+            float pageHeight = 1188.0f;
+
+            // Получаем контекст вывода данных (контекст отрисовки)
+            using (var pdfCanvas = doc.BeginPage(pageWidth, pageHeight))
+            {
+                // Формируем структуру, которая может описывает параметры отображения элемента
+                using var paint = new SKPaint
+                {
+                    TextSize = 48.0f,
+                    IsAntialias = true,
+                    Color = SKColors.Black,
+                    IsStroke = true,
+                    StrokeWidth = 2,
+                    TextAlign = SKTextAlign.Left
+                };
+
+                float curPos = 0.0f;    // Текущая позиция вывода - изменяется на каждой итерации
+                float margin = 24.0f;   // Отступы к каждой из сторон
+                float oneThird = (pageWidth - margin * 2) / 3;  // Каждая колонка шириной в треть
+
+                foreach (var note in Banknotes)
+                {
+                    pdfCanvas.DrawText(note.Id.ToString(), margin, curPos + paint.TextSize, paint);
+                    pdfCanvas.DrawText(note.Currency, margin + oneThird, curPos + paint.TextSize, paint);
+                    pdfCanvas.DrawText(note.Denomination, margin + oneThird * 2, curPos + paint.TextSize, paint);
+                    curPos += paint.TextSize;
+                }
+
+                doc.EndPage();
+            }
+
+            doc.Close();
         }
 
         public void DeleteBanknote()
