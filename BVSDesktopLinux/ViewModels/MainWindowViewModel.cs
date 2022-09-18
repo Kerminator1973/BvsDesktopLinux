@@ -3,45 +3,42 @@ using BvsDesktopLinux.Models;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
 namespace BvsDesktopLinux.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModelBase
     {
         // Контейнер используется в XAML как источник данных DataGrid
         public ObservableCollection<Banknote> Banknotes { get; }
-
-        // Выбранная пользователем банкнота
-        private Banknote? selectedBanknote = null;
 
         // Для того, чтобы связать событие изменения SelectedBanknote, осуществляемое
         // через DataGrid и метод CanUpdate() кнопки "Delete Item", необходимо создать
         // дополнительной свойство IsBanknoteSelected, через которое и передаётся
         // информация об изменении выбранного элемента
-        bool IsBanknoteSelected = false;
+        private bool isBanknoteSelected = false;
 
-        // При сборке проекта появляется предупреждение, связанное с определением PropertyChanged:
-        // "error CS0079: The event 'ReactiveObject.PropertyChanged' can only appear on the left
-        // hand side of += or -=". Причина предупреждения в том, что ViewModelBase наследуется
-        // от ReactiveObject, который реализует интерфейс INotifyPropertyChanged и в нём
-        // так же определен event PropertyChanged. Т.е. мы как бы переопределяем PropertyChanged
-        // уже определённый в базовом классе
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public bool IsBanknoteSelected
+        {
+            get { return isBanknoteSelected; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref isBanknoteSelected, value);
+            }
+        }
+
+        // Выбранная пользователем банкнота
+        private Banknote? selectedBanknote = null;
 
         public Banknote? SelectedBanknote {
             get { return selectedBanknote; }
             set
             {
-                if (value == selectedBanknote)
-                    return;
-                selectedBanknote = value;
+                this.RaiseAndSetIfChanged(ref selectedBanknote, value);
 
                 // Информируем подписчиков (метод CanDeleteBanknote) об изменении состояния
                 // SelectedBanknote, косвенным способом через изменение свойства IsBanknoteSelected
                 IsBanknoteSelected = (null != selectedBanknote);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBanknoteSelected)));
             } 
         }
 
