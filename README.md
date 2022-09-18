@@ -376,7 +376,7 @@ public void RestoreCounts(string currency)
 public bool CanRestoreCounts()
 ```
 
-Метод CanUpdate() можно использовать совместно с атрибцтами ViewModel, как показано в приведённом ниже примере:
+Метод CanUpdate() можно использовать совместно с атрибутами ViewModel, как показано в приведённом ниже примере:
 
 ``` csharp
 [DependsOn(nameof(SelectedBanknote))]
@@ -386,30 +386,38 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 }
 ```
 
-В действительности, этот механизм не достаточно универсален и, например, для отслеживания изменения SelectedItem списка GridView необходима добавлять специализированный метод вручную:
+В действительности, у Avalonia UI есть некоторая проблема с использованием события (event) PropertyChanged в классе производном от ViewModelBase. Заметим, что автоматически генерируемый по шаблону Avalonia проект содержит класс MainWindowViewModel, производный от ViewModelBase. Проблема состоит в том, что ViewModelBase наследуется ReactiveObject, а в ReactiveObject уже определено событие PropertyChanged, которое имеет модификато доступа private. Возникает коллизия, которая не нравится компилятору и может иметь побочные эффекты.
 
-``` csharp
-// Для того, чтобы связать событие изменения SelectedBanknote, осуществляемое
-// через DataGrid и метод CanUpdate() кнопки "Delete Item", необходимо выполнить
-// ряд дополнительных действий вручную
-public event PropertyChangedEventHandler? PropertyChanged;
+Чтобы обойти ограничение, следует использовать вспомогательное зависимое свойство IsBanknoteSelected:
 
-bool IsBanknoteSelected = false;
+``` csharp 
+private bool isBanknoteSelected = false;
+public bool IsBanknoteSelected
+{
+    get { return isBanknoteSelected; }
+    set
+    {
+        this.RaiseAndSetIfChanged(ref isBanknoteSelected, value);
+    }
+}
+
+private Banknote? selectedBanknote = null;
 public Banknote? SelectedBanknote {
     get { return selectedBanknote; }
     set
     {
-        if (value == selectedBanknote)
-            return;
-        selectedBanknote = value;
+        this.RaiseAndSetIfChanged(ref selectedBanknote, value);
 
         // Информируем подписчиков (метод CanDeleteBanknote) об изменении состояния
         // SelectedBanknote, косвенным способом через изменение свойства IsBanknoteSelected
         IsBanknoteSelected = (null != selectedBanknote);
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBanknoteSelected)));
     } 
 }
+```
 
+Соответственно, код отслеживания изменения SelectedItem в DataGrid и связывания этого изменения с состоянием командной кнопки, выглядеть так:
+
+``` csharp
 // Метод CanDeleteBanknote() будет вызываться если измениться свойство IsBanknoteSelected
 [DependsOn(nameof(IsBanknoteSelected))]
 public bool CanDeleteBanknote(/* CommandParameter */object parameter)
@@ -417,6 +425,8 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
     return null != SelectedBanknote;
 }
 ```
+
+Заметим, что в Avalonia UI используется удобный helper-метод **RaiseAndSetIfChanged**().
 
 ## Локализация приложений
 
