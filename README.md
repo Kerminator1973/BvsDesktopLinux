@@ -475,3 +475,58 @@ dotnet run -locale ru-RU
 ```
 
 Стоит заметить, что концептуально более правильным было бы устанавливать текущую локализацию (locale) средствами операционной системы. Возможно, что именно в этом направлении следует развивать приложение. Тем не менее, в текущем моменте, использование дополнительных параметров запуска приложения кажется достаточно удобным для инженера со среднем уровнем подготовки.
+
+## Экспорт данных в PDF
+
+Задача экспорта данных в PDF может быть решена посредством библиотеки [SkiaSharp](https://github.com/mono/SkiaSharp), доступной в Avalonia UI "из коробки".
+
+Основной цикл выглядит следующим образом:
+
+``` csharp
+using SkiaSharp;
+...
+using var doc = SKDocument.CreatePdf("SkiaSample.pdf", metadata);
+
+// Критичное упрощение: все записи выводятся только на одну страницу,
+// размер страницы фиксированный
+float pageWidth = 840.0f;
+float pageHeight = 1188.0f;
+
+// Получаем контекст вывода данных (контекст отрисовки)
+using (var pdfCanvas = doc.BeginPage(pageWidth, pageHeight)) {
+
+    // Формируем структуру, которая описывает параметры отображения элемента
+    using var paint = new SKPaint
+    {
+        TextSize = 48.0f,
+        IsAntialias = true,
+        Color = SKColors.Black,
+        IsStroke = true,
+        StrokeWidth = 2,
+        TextAlign = SKTextAlign.Left
+    };
+
+    float curPos = 0.0f;    // Текущая позиция вывода - изменяется на каждой итерации
+    float margin = 24.0f;   // Отступы к каждой из сторон
+    float oneThird = (pageWidth - margin * 2) / 3;  // Каждая колонка шириной в треть
+
+    foreach (var note in Banknotes)
+    {
+        pdfCanvas.DrawText(note.Id.ToString(), margin, curPos + paint.TextSize, paint);
+        pdfCanvas.DrawText(note.Currency, margin + oneThird, curPos + paint.TextSize, paint);
+        pdfCanvas.DrawText(note.Denomination, margin + oneThird * 2, curPos + paint.TextSize, paint);
+        curPos += paint.TextSize;
+    }
+
+    doc.EndPage();
+}
+
+doc.Close();
+```
+
+В данном подходе приходится самостоятельно управлять разбиением контента на отдельные страницы и вообще, подход низко-уровневый, но зато всё контролирует код и можно создать форму любого уровня сложности.
+
+Примеры, иллюстрирующие данный подход:
+
+- https://github.com/mono/SkiaSharp/blob/main/samples/Gallery/Shared/Samples/CreatePdfSample.cs
+- https://github.com/Oaz/AvaloniaUI.PrintToPDF

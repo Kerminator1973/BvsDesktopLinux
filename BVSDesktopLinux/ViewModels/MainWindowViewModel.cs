@@ -119,7 +119,7 @@ namespace BvsDesktopLinux.ViewModels
             // Получаем контекст вывода данных (контекст отрисовки)
             using (var pdfCanvas = doc.BeginPage(pageWidth, pageHeight))
             {
-                // Формируем структуру, которая может описывает параметры отображения элемента
+                // Формируем структуру, которая описывает параметры отображения элемента
                 using var paint = new SKPaint
                 {
                     TextSize = 48.0f,
