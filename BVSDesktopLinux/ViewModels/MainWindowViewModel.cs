@@ -1,5 +1,6 @@
 ﻿using Avalonia.Metadata;
 using BvsDesktopLinux.Models;
+using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,11 +17,19 @@ namespace BvsDesktopLinux.ViewModels
         private Banknote? selectedBanknote = null;
 
         // Для того, чтобы связать событие изменения SelectedBanknote, осуществляемое
-        // через DataGrid и метод CanUpdate() кнопки "Delete Item", необходимо выполнить
-        // ряд дополнительных действий вручную
+        // через DataGrid и метод CanUpdate() кнопки "Delete Item", необходимо создать
+        // дополнительной свойство IsBanknoteSelected, через которое и передаётся
+        // информация об изменении выбранного элемента
+        bool IsBanknoteSelected = false;
+
+        // При сборке проекта появляется предупреждение, связанное с определением PropertyChanged:
+        // "error CS0079: The event 'ReactiveObject.PropertyChanged' can only appear on the left
+        // hand side of += or -=". Причина предупреждения в том, что ViewModelBase наследуется
+        // от ReactiveObject, который реализует интерфейс INotifyPropertyChanged и в нём
+        // так же определен event PropertyChanged. Т.е. мы как бы переопределяем PropertyChanged
+        // уже определённый в базовом классе
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        bool IsBanknoteSelected = false;
         public Banknote? SelectedBanknote {
             get { return selectedBanknote; }
             set
