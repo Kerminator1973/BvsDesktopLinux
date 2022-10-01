@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
+using Microsoft.EntityFrameworkCore;    // Нужен в случае использования Migrate()
 
 namespace BvsDesktopLinux.ViewModels
 {
@@ -49,7 +50,9 @@ namespace BvsDesktopLinux.ViewModels
             BanknotesDbContext _dbContext = new();
 
             // Убеждаемся в том, что база данных существует. Если её не будет, метод
-            // EnsureCreated() создаст схему
+            // EnsureCreated() создаст схему. Если же база создана, но схема не сформирована,
+            // метод EnsureCreated() не создаст ничего. В этом случае следует использовать
+            // метод Migrate()
             _dbContext.Database.EnsureCreated();
 
             // Выполняем Seed Data - заполняем базу данных минимально необходимыми данными

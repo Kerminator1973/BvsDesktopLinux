@@ -8,10 +8,10 @@ namespace BvsDesktopLinux.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlite("Data Source=banknotes.db");
+            optionsBuilder.UseSqlite("Data Source=banknotes.db");
 
             // https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/6.0.7
-            optionsBuilder.UseNpgsql(@"Host=127.0.0.1;Username=developer;Password=38Gjgeuftd;Database=test");
+            // optionsBuilder.UseNpgsql(@"Host=127.0.0.1;Username=developer;Password=38Gjgeuftd;Database=test");
         }
     }
 }
