@@ -53,7 +53,14 @@ namespace BvsDesktopLinux.ViewModels
             // EnsureCreated() создаст схему. Если же база создана, но схема не сформирована,
             // метод EnsureCreated() не создаст ничего. В этом случае следует использовать
             // метод Migrate()
-            _dbContext.Database.EnsureCreated();
+            //
+            //_dbContext.Database.EnsureCreated();
+
+            var pendingMigrations = _dbContext.Database.GetPendingMigrations();
+            if (pendingMigrations.Any())
+            {
+                _dbContext.Database.Migrate();
+            }
 
             // Выполняем Seed Data - заполняем базу данных минимально необходимыми данными
             // для обеспечения возможности отладки приложения
