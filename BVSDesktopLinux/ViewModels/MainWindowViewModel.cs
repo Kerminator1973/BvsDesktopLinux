@@ -59,7 +59,7 @@ namespace BvsDesktopLinux.ViewModels
             var pendingMigrations = _dbContext.Database.GetPendingMigrations();
             if (pendingMigrations.Any())
             {
-                _dbContext.Database.Migrate();
+                _dbContext.Database.Migrate();  // Использовать using Microsoft.EntityFrameworkCore;
             }
 
             // Выполняем Seed Data - заполняем базу данных минимально необходимыми данными

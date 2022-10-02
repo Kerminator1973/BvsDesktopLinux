@@ -13,6 +13,8 @@ namespace BvsDesktopLinux
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+
+            // «десь можно выполнить регистрацию сервисов Dependency Injection
         }
 
         public override void OnFrameworkInitializationCompleted()
