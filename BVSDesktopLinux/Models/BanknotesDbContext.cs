@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace BvsDesktopLinux.Models
 {
@@ -8,6 +10,14 @@ namespace BvsDesktopLinux.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+/*
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true);
+
+            var configuration = builder.Build();
+            var name = configuration.GetSection("ConnectionStrings").GetSection("sqlite").Value;
+*/
             optionsBuilder.UseSqlite("Data Source=banknotes.db");
 
             // https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/6.0.7
