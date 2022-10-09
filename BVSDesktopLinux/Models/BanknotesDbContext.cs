@@ -10,18 +10,21 @@ namespace BvsDesktopLinux.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-/*
-            var builder = new ConfigurationBuilder()
+            var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true);
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
 
-            var configuration = builder.Build();
-            var name = configuration.GetSection("ConnectionStrings").GetSection("sqlite").Value;
-*/
-            optionsBuilder.UseSqlite("Data Source=banknotes.db");
-
-            // https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/6.0.7
-            // optionsBuilder.UseNpgsql(@"Host=127.0.0.1;Username=developer;Password=38Gjgeuftd;Database=test");
+            var connectionString = config.GetSection("ConnectionStrings").GetSection("psql").Value;
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                optionsBuilder.UseSqlite("Data Source=banknotes.db");
+            }
+            else
+            {
+                // https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/6.0.7
+                optionsBuilder.UseNpgsql(connectionString);
+            }
         }
     }
 }
