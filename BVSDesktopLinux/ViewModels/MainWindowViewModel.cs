@@ -45,6 +45,19 @@ namespace BvsDesktopLinux.ViewModels
             } 
         }
 
+
+        // Сообщение о ошибке подключения к базе данных
+        private String dbAccessFailure = String.Empty;
+
+        public String DbAccessFailure
+        {
+            get { return dbAccessFailure; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref dbAccessFailure, value);
+            }
+        }
+
         public MainWindowViewModel()
         {
             BanknotesDbContext _dbContext = new();
@@ -54,12 +67,33 @@ namespace BvsDesktopLinux.ViewModels
             // метод EnsureCreated() не создаст ничего. В этом случае следует использовать
             // метод Migrate()
             //
-            //_dbContext.Database.EnsureCreated();
-
-            var pendingMigrations = _dbContext.Database.GetPendingMigrations();
-            if (pendingMigrations.Any())
+            // Метод проверяет, была ли создана база данных. Если базы не было, то вызов
+            // создаст её и вернёт true. Если база есть, то метод EnsureCreated() вернёт
+            // false.
+            // Мы анализуем код возврата EnsureCreated() и если база есть, анализируем
+            // необходимо ли применять к ней миграции.
+            // Оптимальным поведением было бы выполнять миграцию на новую базу данных
+            // при установке обновления программного обеспечения
+            try
             {
-                _dbContext.Database.Migrate();  // Использовать using Microsoft.EntityFrameworkCore;
+                if (!_dbContext.Database.EnsureCreated())
+                {
+
+                    var pendingMigrations = _dbContext.Database.GetPendingMigrations();
+                    if (pendingMigrations.Any())
+                    {
+                        _dbContext.Database.Migrate();  // Определён в Microsoft.EntityFrameworkCore;
+                    }
+                }
+            }
+            catch (Npgsql.NpgsqlException ex)
+            {
+                // Не удалось подключиться к базе данных.
+                Banknotes = new ObservableCollection<Banknote>();
+
+                // Сохраняем информацию об ошибке подключения во внутренней переменной
+                DbAccessFailure = ex.Message;
+                return;
             }
 
             // Выполняем Seed Data - заполняем базу данных минимально необходимыми данными

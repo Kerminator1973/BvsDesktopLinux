@@ -19,6 +19,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="auto" />
 		</Grid.RowDefinitions>
 
 		<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 0">
@@ -79,5 +80,9 @@
 				<DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}"></DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
+
+		<TextBlock Text="{Binding DbAccessFailure}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+		   Foreground="Red" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
 	</Grid>
 </Window>
