@@ -12,77 +12,86 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="auto" />
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="auto" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="auto" />
 			<RowDefinition Height="*" />
-			<RowDefinition Height="auto" />
 		</Grid.RowDefinitions>
 
-		<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 0">
-			<!-- Могут быть использованы префиксы: fas (solid), far (regular) и fab (brands) -->
-			<Button Margin="0,0,5,0" Command="{Binding RestoreCounts}" CommandParameter="RUB">
+		<Grid IsVisible="{Binding UiVisible}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="auto" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 0">
+				<!-- Могут быть использованы префиксы: fas (solid), far (regular) и fab (brands) -->
+				<Button Margin="0,0,5,0" Command="{Binding RestoreCounts}" CommandParameter="RUB">
+					<ToolTip.Tip>
+						<ToolTip Background="Yellow" Foreground="Black">
+							<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipRestoreCounts}" />
+						</ToolTip>
+					</ToolTip.Tip>				
+					<Border BorderThickness="4">
+						<i:Icon Value="fas fa-redo" FontSize="20" />
+					</Border>
+				</Button>
+				<Button FontSize="20" i:Attached.Icon="far fa-file-excel">
+					<ToolTip.Tip>
+						<ToolTip Background="Yellow" Foreground="Black">
+							<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipExportCSV}" />
+						</ToolTip>
+					</ToolTip.Tip>
+				</Button>
+				<Button Margin="5,0,5,0" Command="{Binding PrintReport}">
+					<ToolTip.Tip>
+						<ToolTip Background="Yellow" Foreground="Black">
+							<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipPrintReport}" />
+						</ToolTip>
+					</ToolTip.Tip>
+					<Border BorderThickness="4">
+						<i:Icon Value="fas fa-print" FontSize="20" />
+					</Border>
+				</Button>
+
+			</StackPanel>
+
+			<Border Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="2" CornerRadius="8" 
+					   Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" >
+				<TextBlock Text="{x:Static p:Resources.TitleBillReport}" Foreground="White" Background="LightSkyBlue" 
+					   FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			</Border>
+
+			<Button i:Attached.Icon="fas fa-trash-alt" FontSize="20"
+					Foreground="Red" Margin="10, 10, 10, 0"
+					Command="{Binding DeleteBanknote}"
+					Grid.Row="0" Grid.Column="2">
 				<ToolTip.Tip>
 					<ToolTip Background="Yellow" Foreground="Black">
-						<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipRestoreCounts}" />
-					</ToolTip>
-				</ToolTip.Tip>				
-				<Border BorderThickness="4">
-					<i:Icon Value="fas fa-redo" FontSize="20" />
-				</Border>
-			</Button>
-			<Button FontSize="20" i:Attached.Icon="far fa-file-excel">
-				<ToolTip.Tip>
-					<ToolTip Background="Yellow" Foreground="Black">
-						<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipExportCSV}" />
+						<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipDeleteNotes}" />
 					</ToolTip>
 				</ToolTip.Tip>
 			</Button>
-			<Button Margin="5,0,5,0" Command="{Binding PrintReport}">
-				<ToolTip.Tip>
-					<ToolTip Background="Yellow" Foreground="Black">
-						<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipPrintReport}" />
-					</ToolTip>
-				</ToolTip.Tip>
-				<Border BorderThickness="4">
-					<i:Icon Value="fas fa-print" FontSize="20" />
-				</Border>
-			</Button>
 
-		</StackPanel>
+			<DataGrid AutoGenerateColumns="False" Margin="10"
+					  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
+					  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}"></DataGridTextColumn>
+					<DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" Binding="{Binding Currency}"></DataGridTextColumn>
+					<DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}"></DataGridTextColumn>
+				</DataGrid.Columns>
+			</DataGrid>
 
-		<Border Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="2" CornerRadius="8" 
-				   Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" >
-			<TextBlock Text="{x:Static p:Resources.TitleBillReport}" Foreground="White" Background="LightSkyBlue" 
-				   FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
-		</Border>
+		</Grid>
 
-		<Button i:Attached.Icon="fas fa-trash-alt" FontSize="20"
-				Foreground="Red" Margin="10, 10, 10, 0"
-				Command="{Binding DeleteBanknote}"
-				Grid.Row="0" Grid.Column="2">
-			<ToolTip.Tip>
-				<ToolTip Background="Yellow" Foreground="Black">
-					<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipDeleteNotes}" />
-				</ToolTip>
-			</ToolTip.Tip>
-		</Button>
-
-		<DataGrid AutoGenerateColumns="False" Margin="10"
-				  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
-				  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}"></DataGridTextColumn>
-				<DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" Binding="{Binding Currency}"></DataGridTextColumn>
-				<DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}"></DataGridTextColumn>
-			</DataGrid.Columns>
-		</DataGrid>
-
-		<TextBlock Text="{Binding DbAccessFailure}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-		   Foreground="Red" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
-
+		<TextBlock Text="{Binding DbAccessFailure}" IsVisible="{Binding ErrorBlockVisible}"
+				   Foreground="Red" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
 	</Grid>
+
 </Window>

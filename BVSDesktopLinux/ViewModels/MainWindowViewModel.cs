@@ -45,7 +45,6 @@ namespace BvsDesktopLinux.ViewModels
             } 
         }
 
-
         // Сообщение о ошибке подключения к базе данных
         private String dbAccessFailure = String.Empty;
 
@@ -55,6 +54,31 @@ namespace BvsDesktopLinux.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref dbAccessFailure, value);
+            }
+        }
+
+        // Свойство, определяющее видимость главного окна
+        private bool uiVisible = true;
+
+        public bool UiVisible
+        {
+            get { return uiVisible; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref uiVisible, value);
+            }
+        }
+
+        // Свойство, определяющее видимость блока с описанием ошибки подключения
+        // к базе данных
+        private bool errorBlockVisible = false;
+
+        public bool ErrorBlockVisible
+        {
+            get { return errorBlockVisible; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref errorBlockVisible, value);
             }
         }
 
@@ -93,6 +117,8 @@ namespace BvsDesktopLinux.ViewModels
 
                 // Сохраняем информацию об ошибке подключения во внутренней переменной
                 DbAccessFailure = ex.Message;
+                uiVisible = false;
+                ErrorBlockVisible = true;
                 return;
             }
 
