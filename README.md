@@ -15,7 +15,7 @@ sudo apt-get update && \
 
 Проверить список установленных SDK: `dotnet --list-sdks`
 
-К сожалению, установка SDK не всегда работает. Я сталкивался с проблемой потери информации о SDK: https://github.com/dotnet/sdk/issues/27129
+К сожалению, установка SDK не всегда работает. Я сталкивался с [проблемой потери информации о SDK](https://github.com/dotnet/sdk/issues/27129), в частности, при переходе на Ubuntu 22.10 Kinetic Kudu.
 
 **Решение**, которое помогло:
 
@@ -30,7 +30,7 @@ Pin-Priority: 1001
 
 Подробнее о настройке можно почитать здесь: `man apt_preferences`
 
-3. Загрузить .NET из правильного источника: `sudo apt install dotnet-sdk-6.0`
+3. Загрузить .NET командой: `sudo apt install dotnet-sdk-6.0`
 
 ## Основные консольные команды
 
