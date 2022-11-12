@@ -13,6 +13,14 @@ sudo apt-get update && \
 
 Установить SDK: `sudo apt-get install -y dotnet-sdk-6.0`
 
+В случае возникновения ошибок из-за конфликтов зависимостей, может потребоваться выполнить настройку канала доступа к компонентам .NET:
+
+``` shell
+wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+```
+
 Проверить список установленных SDK: `dotnet --list-sdks`
 
 К сожалению, установка SDK не всегда работает. Я сталкивался с [проблемой потери информации о SDK](https://github.com/dotnet/sdk/issues/27129), в частности, при переходе на Ubuntu 22.10 Kinetic Kudu.
