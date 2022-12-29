@@ -4,9 +4,9 @@
 
 ``` xml
 <Window xmlns="https://github.com/avaloniaui"
-        ...
-		xmlns:controls="clr-namespace:approve.Views"
-        Title="approve">
+    ...
+    xmlns:controls="clr-namespace:approve.Views"
+    Title="approve">
     ...
     <StackPanel Orientation="Vertical">
         <controls:PortSelector DeviceName="Купюпроприёмник D210" />
@@ -22,12 +22,11 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              ...
              x:Class="approve.Views.PortSelector">
-	
-	<StackPanel Orientation="Horizontal">
-		<TextBlock Text="{Binding DeviceName}" />
-		<ComboBox Name="FontComboBox" />
-		<Button Content="Проверить" />
-	</StackPanel>
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{Binding DeviceName}" />
+        <ComboBox Name="FontComboBox" />
+        <Button Content="Проверить" />
+    </StackPanel>
 </UserControl>
 ```
 
