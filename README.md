@@ -79,6 +79,12 @@ dotnet run
 
 Запуск Unit-тестов: 'dotnet test'
 
+## Интеграция с IDE
+
+Беcплатный plug-in для Visual Studio 2022 доступен через Marketplace VisualStudio и называется [Avalonia for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=AvaloniaTeam.AvaloniaVS).
+
+Находясь в axaml-файле можно вызвать Designer через контекстное меню (права кнопка мыши).
+
 ## Различия в пространствах имён
 
 В проектах WPF и Avalonia используются разные пространства имен. Типовой заголовок компонента Avalonia:
