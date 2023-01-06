@@ -540,3 +540,7 @@ doc.Close();
 
 - https://github.com/mono/SkiaSharp/blob/main/samples/Gallery/Shared/Samples/CreatePdfSample.cs
 - https://github.com/Oaz/AvaloniaUI.PrintToPDF
+
+## Создание инсталлятора для Linux
+
+Можно попробовать использовать Package: https://www.nuget.org/packages/dotnet-deb, либо https://github.com/quamotion/dotnet-packaging
