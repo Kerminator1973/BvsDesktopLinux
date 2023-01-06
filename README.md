@@ -51,9 +51,19 @@ dotnet new sln
 dotnet sln add BvsDesktopLinux.csproj
 ```
 
+Сразу после команды new указывается имя шаболна. Список шаблонов можно посмотреть командой: `dotnet new list`. Установить шаблоны Avalonia можно командой `dotnet new install Avalonia.Templates`, см. [шаблоны Avalonia](https://github.com/AvaloniaUI/avalonia-dotnet-templates)
+
+Если нужно указать конкретную платформу, то это можно сделать используя параметр `-F`:
+
+``` shell
+dotnet new avalonia.mvvm -F "net6.0" -o approve -n approve
+```
+
+Список параметров для конкретного шаблона можно посмотреть командой (пример): `dotnet new avalonia.mvvm -h`
+
 Установка Git и загрузка репозитария из GitHub:
 
-```
+``` shell
 sudo apt-get update
 sudo apt-get install git
 git clone https://github.com/Kerminator1973/BvsDesktopLinux.git
@@ -61,7 +71,7 @@ git clone https://github.com/Kerminator1973/BvsDesktopLinux.git
 
 Команды сборки и запуска приложения (запуск из подкаталога с файлом .csproj):
 
-```
+``` shell
 dotnet restore
 dotnet build
 dotnet run
