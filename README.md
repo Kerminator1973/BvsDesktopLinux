@@ -553,4 +553,12 @@ doc.Close();
 
 ## Создание инсталлятора для Linux
 
-Можно попробовать использовать Package: https://www.nuget.org/packages/dotnet-deb, либо https://github.com/quamotion/dotnet-packaging
+Для создания вуи-файла использовался package: https://github.com/quamotion/dotnet-packaging
+
+Установка инструмента: `dotnet tool install --global dotnet-deb`
+
+Далее, в папке проекта необходимо добавить инструмент csproj: `dotnet deb install`
+
+Сборка deb-файла осуществляется командой: `dotnet deb`. Путь, по которому сохраняется deb-файл выводится в консоли. 
+
+Можно попробовать использовать Package: https://www.nuget.org/packages/dotnet-deb.
