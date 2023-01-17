@@ -154,7 +154,7 @@ Grid в Avalonia не имеет свойства **ColSpan**, но есть **C
 		<ToolTip Background="Yellow" Foreground="Black">
 			<TextBlock Margin="3" Text="{x:Static p:Resources.TooltipRestoreCounts}" />
 		</ToolTip>
-	</ToolTip.Tip>				
+	</ToolTip.Tip>
 	<Border BorderThickness="4">
 		<i:Icon Value="fas fa-redo" FontSize="20" />
 	</Border>
@@ -249,7 +249,7 @@ snap install sqlitebrowser
 
 После установки посредством snap, приложение появляется в «Application».
 
-## Работа с базой данных SQLite в коде на C#
+## Работа с базой данных SQLite в коде на C\#
 
 В соответствии с шаблоном проектирования MVVM, классы с версткой должны обладать слабыми связями с моделью. При создании главного окна может быть создан DataContext главного окна:
 
@@ -550,6 +550,8 @@ doc.Close();
 
 - https://github.com/mono/SkiaSharp/blob/main/samples/Gallery/Shared/Samples/CreatePdfSample.cs
 - https://github.com/Oaz/AvaloniaUI.PrintToPDF
+
+Печать документов на принтере может быть осуществлена посредством CUPS-драйвера, доступ к которому возможен либо через [команды shell](./printing.md), либо посредством API на C++ (см. `#include <cups/cups.h>`).
 
 ## Создание инсталлятора для Linux
 
