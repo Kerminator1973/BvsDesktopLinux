@@ -53,7 +53,7 @@ print(ep)
 
 ep_in = usb.util.find_descriptor(
     intf,
-    # match the first OUT endpoint
+    # match the first IN endpoint
     custom_match = \
     lambda e: \
         usb.util.endpoint_direction(e.bEndpointAddress) == \

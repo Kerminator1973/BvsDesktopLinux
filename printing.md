@@ -144,3 +144,96 @@ bEndpointAddress    0x01  EP 1 OUT
 Параметр **iProduct** позволяет увидеть, что подключенное USB-устройство является составным CDC-принтером. Идентификационные параметры **idVendor** (0x0fe6) и **idProduct** (0x811e) будут использованы для поиска устройства для подключения. Параметры **bEndpointAddress** позволяют определить, что через порт 0x81 можно получить данные от устройства, а 0x01 - записать данные на устройство.
 
 Ещё интересной информацией является версия USB, которая указана в параметре **bcdUSB** (2.00). Также интересной является информация о классе устройства **bDeviceClass**. В конкретном случае класс устройства: _Miscellaneous Device_ (239).
+
+Для получения информации о состоянии устройства была использована статья [Driving a USB Thermal Printer with Linux/Raspberry Pi](https://vince.patronweb.com/2019/01/11/Linux-Zjiang-POS58-thermal-printer/). Пример кода взят из репозитория [https://github.com/vpatron/](https://github.com/vpatron/usb_receipt_printer). Однако, пример был модифицирован с целью адаптации под конкретный термопринтер и исправления ошибок в коде скрипта.
+
+Для запуска примера требуется установить компоненты операционной системы:
+
+``` shell
+sudo apt install pip3
+sudo apt install libusb-1.0-0-dev
+```
+
+Также необходимо загрузить библиотку PyUSB для Python:
+
+``` shell
+pip3 install pyusb
+```
+
+В скрипте на Python сначала осуществляется поиск устройство по idVendor и idProduct:
+
+``` python
+import usb.core
+import usb.util
+
+dev = usb.core.find(idVendor=0x0fe6, idProduct=0x811e)
+if dev is None:
+    raise ValueError('Device not found')
+```
+
+Затем следует проверить, что драйвер находится в активном состоянии:
+
+``` python
+needs_reattach = False
+if dev.is_kernel_driver_active(0):
+    needs_reattach = True
+    dev.detach_kernel_driver(0)
+```
+
+Далее устанавливается активная конфигурации. Метод может быть вызван без параметров, что означает, что автоматически выбирается первая активная конфигурация:
+
+``` python
+dev.set_configuration()
+```
+
+Далее следует получить информацию об Endpoins (IN и OUT):
+
+``` python
+cfg = dev.get_active_configuration()
+intf = cfg[(0,0)]
+
+ep = usb.util.find_descriptor(
+    intf,
+    # match the first OUT endpoint
+    custom_match = \
+    lambda e: \
+        usb.util.endpoint_direction(e.bEndpointAddress) == \
+        usb.util.ENDPOINT_OUT)
+
+ep_in = usb.util.find_descriptor(
+    intf,
+    # match the first IN endpoint
+    custom_match = \
+    lambda e: \
+        usb.util.endpoint_direction(e.bEndpointAddress) == \
+        usb.util.ENDPOINT_IN)
+```
+
+Затем можно записать данные в входной (OUT) Endpoint:
+
+``` python
+ep.write('\x1b\x76\x00')
+```
+
+Результат работы команды можно получить так:
+
+``` python
+try:
+    data = dev.read(ep_in.bEndpointAddress, ep_in.wMaxPacketSize)
+    print( data )
+
+except usb.core.USBError as e:
+    if e.args == ('Operation timed out',):
+        print( "timeoutas" )
+```
+
+Завершающая часть скрипта:
+
+``` python
+dev.reset()
+if needs_reattach:
+    dev.attach_kernel_driver(0)
+    print( "Reattached USB device to kernel driver")
+```
+
+Важно заметить, что использование методов **detach_kernel_driver**() и **attach_kernel_driver**() позволяет отключить работающий драйвер (CUPS), выполнить команду, а после выполнения команды, снова активировать CUPS-драйвер, продолжив работу как ни в чём не бывало.
