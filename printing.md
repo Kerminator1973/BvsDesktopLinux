@@ -154,6 +154,8 @@ sudo apt install pip3
 sudo apt install libusb-1.0-0-dev
 ```
 
+Библиотека [libusb](libhttps://github.com/libusb/libusb) является кросс-платформенной библиотекой для доступа к USB-устройствам. Эта библиотека написана на Си и используется во многих других проектах, включая [PyUSB](https://github.com/pyusb/pyusb) и [libusb.net](https://github.com/LibUsbDotNet/LibUsbDotNet).
+
 Также необходимо загрузить библиотку PyUSB для Python:
 
 ``` shell
