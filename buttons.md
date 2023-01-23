@@ -37,3 +37,32 @@ void bConfigurationApprove(object sender, RoutedEventArgs args)
 ``` csharp
 <Button Content="Дальше >>" Click="bConfigurationApprove" />
 ```
+
+## CheckBox - это тоже Button
+
+Связать состояние CheckBox со свойством можно используя атрибут **IsChecked**:
+
+``` csharp
+<CheckBox IsChecked="{Binding IsSopButtonPressed}">SOP Button</CheckBox>
+```
+
+Свойство может быть определено следующим образом:
+
+``` csharp
+private Boolean isSopButtonPressed = false;
+
+public Boolean IsSopButtonPressed
+{
+    get { return isSopButtonPressed; }
+    set
+    {
+        this.RaiseAndSetIfChanged(ref isSopButtonPressed, value);
+    }
+}
+```
+
+Как и у экземпляра класса Button, мы можем использовать атрибут **Click** для обработки нажатия на поле выбора состояния CheckBox:
+
+``` csharp
+<CheckBox Click="btnSopButton">SOP Button</CheckBox>
+```
