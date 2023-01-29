@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Xaml.Interactions.Core;
 
 namespace BvsDesktopLinux.Views
 {
