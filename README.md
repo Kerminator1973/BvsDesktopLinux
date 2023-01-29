@@ -103,6 +103,12 @@ XAML и Avalonia также очень сильно расходятся в на
 
 ### Grid
 
+А Avalonia является допустимой сокращённая форма определения количества строк/колонок и их высоты/ширины:
+
+```csharp
+<Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+```
+
 Grid в Avalonia не имеет свойства **ColSpan**, но есть **ColumnSpan**. Правила использования те же самые.
 
 ### Label/TextBlock
@@ -296,7 +302,6 @@ TODO: Механизм ещё не исследован! Отправная то
 ```csharp
 private void DataGrid_OnLoadingRow(object? sender, DataGridRowEventArgs e)
 {
-    DataGridRow row = e.Row;
     var dataObject = e.Row.DataContext as Models.Banknote;
     if (dataObject != null && dataObject.Denomination == "100")
     {
