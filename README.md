@@ -285,14 +285,23 @@ TODO: Механизм ещё не исследован! Отправная то
 </DataGrid>
 ```		
 
-Альтернативный подход с изменением свойства в C#-коде:
+Альтернативный подход с изменением свойства в коде успешно работает. Для этого нужно в XAML-коде установить свойство "LoadingRow":
+
+``` csharp
+<DataGrid LoadingRow="DataGrid_OnLoadingRow" ...
+```
+
+Также необходимо добавить обработчик явным образом:
 
 ```csharp
-void dataGrid_LoadingRows(object sender, DataGridRowEventArgs e)
+private void DataGrid_OnLoadingRow(object? sender, DataGridRowEventArgs e)
 {
-    var dataObject = e.Row.DataContext as YourDataObject;
-    if (dataObject != null && dataObject.Importance == "HIGH")
+    DataGridRow row = e.Row;
+    var dataObject = e.Row.DataContext as Models.Banknote;
+    if (dataObject != null && dataObject.Denomination == "100")
+    {
         e.Row.Background = Brushes.Red;
+    }
 }
 ```
 
