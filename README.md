@@ -228,6 +228,31 @@ class Program
 
 В Avalonia для подобных задач придётся использовать отдельный Package [Avalonia XAML Behaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) от Wiesław Šoltés. Package реализует Interaction.Behaviors, DataTriggerBehavior и ChangePropertyAction.
 
+Avalonia XAML Behaviors является портом библиотеки **Windows UWP version of XAML Behaviors**.
+
+Установить библиотеку можно командой в Package Manager Console:
+
+``` cmd
+Install-Package Avalonia.Xaml.Behaviors
+```
+
+TODO: Механизм ещё не исследован! Отправная точка:
+
+```
+xmlns:ib="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+xmlns:b="using:DragAndDropSample.Behaviors"
+```
+
+``` csharp
+<ib:Interaction.Behaviors>
+    <b:DataTriggerBehavior
+        Binding="{Binding Denomination}" ComparisonCondition="Equal" Value="100">
+        <b:ChangePropertyAction
+            TargetObject="MyDataGrid" PropertyName="Background" Value="Red" />
+    </b:DataTriggerBehavior>
+</ib:Interaction.Behaviors>
+```		
+
 ## Добавление базы данных SQL
 
 Создать db-файл можно используя plug-in VSCode [SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite) by alexcvzz.
