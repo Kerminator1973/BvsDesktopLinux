@@ -256,13 +256,20 @@ Install-Package Avalonia.Xaml.Behaviors
 
 При необходимости добавления условного изменения стиля, следует использовать Interaction.Behaviors и DataTriggerBehavior.
 
-TODO: Механизм ещё не исследован! Отправная точка:
-
 ``` csharp
 <Window xmlns="https://github.com/avaloniaui"
     xmlns:int="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"		
 ```
+
+Экземпляр класса **DataTriggerBehavior** проверяет некоторое условие и если оно исполняется, то выполняет действия, определённые как его дочерние элементы (обычно это классы ChangePropertyAction). Экземпляр класса **ChangePropertyAction** ищёт объект, указанный в атрибуте TargetObject и изменяет его свойство. Т.е. этот подход чаще всего используется, когда нужно обеспечить зависимость свойств одного объекта от значений атрибутов другого объекта.
+
+Практические примеры:
+
+- Если ширина Panel устанавливается меньше 500 пикселей, то некоторый орган управления не отбражается
+- Если CheckBox устанавливается в значение True, то изменяется некоторая картинка на экране
+
+Пример код (КОТОРЫЙ ПОКА НЕ РАБОТАЕТ КАК НУЖНО):
 
 ``` csharp
 <DataGrid AutoGenerateColumns="False" Margin="10"
@@ -290,6 +297,8 @@ TODO: Механизм ещё не исследован! Отправная то
     </DataGrid.Columns>
 </DataGrid>
 ```		
+
+### Выделить цветом строку DataGrid, используя программный код
 
 Альтернативный подход с изменением свойства в коде успешно работает. Для этого нужно в XAML-коде установить свойство "LoadingRow":
 
