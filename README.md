@@ -228,6 +228,8 @@ class Program
 
 В Avalonia для подобных задач придётся использовать отдельный Package [Avalonia XAML Behaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) от Wiesław Šoltés. Package реализует Interaction.Behaviors, DataTriggerBehavior и ChangePropertyAction.
 
+Avalonia XAML Behaviors является простой в использовании библиотекой, которая добавляет общее, повторно используемое поведение органов управления при взаимодействии с пользователем в ваши Avalonia-приложения с добавлением минимального количества кода.
+
 Avalonia XAML Behaviors является портом библиотеки **Windows UWP version of XAML Behaviors**.
 
 Установить библиотеку можно командой в Package Manager Console:
@@ -236,22 +238,63 @@ Avalonia XAML Behaviors является портом библиотеки **Win
 Install-Package Avalonia.Xaml.Behaviors
 ```
 
+Для примера, можно попробовать изменить цвет отдельной строки, в зависимости от значения конкретного поля. Если не использовать интерактивность, то для всех элементов DataGrid изменить фоновый цвет можно следующей версткой:
+
+```csharp
+<DataGrid.Styles>
+    <Style Selector="DataGridRow">
+        <Setter Property="Background" Value="LightGreen" />
+    </Style>
+</DataGrid.Styles>
+```
+
+При необходимости добавления условного изменения стиля, следует использовать Interaction.Behaviors и DataTriggerBehavior.
+
 TODO: Механизм ещё не исследован! Отправная точка:
 
-```
-xmlns:ib="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-xmlns:b="using:DragAndDropSample.Behaviors"
+``` csharp
+<Window xmlns="https://github.com/avaloniaui"
+    xmlns:int="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"		
 ```
 
 ``` csharp
-<ib:Interaction.Behaviors>
-    <b:DataTriggerBehavior
-        Binding="{Binding Denomination}" ComparisonCondition="Equal" Value="100">
-        <b:ChangePropertyAction
-            TargetObject="MyDataGrid" PropertyName="Background" Value="Red" />
-    </b:DataTriggerBehavior>
-</ib:Interaction.Behaviors>
+<DataGrid AutoGenerateColumns="False" Margin="10"
+            Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
+            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+
+    <DataGrid.Styles>
+        <Style Selector="DataGridRow">
+            <int:Interaction.Behaviors>
+                <ia:DataTriggerBehavior Binding="{Binding Denomination}"
+                                        ComparisonCondition="Equal"
+                                        Value="100">
+                    <ia:ChangePropertyAction TargetObject="DataTriggerRectangle"
+                                        PropertyName="Background"
+                                        Value="{DynamicResource YellowBrush}" />
+                </ia:DataTriggerBehavior>
+            </int:Interaction.Behaviors>
+        </Style>
+    </DataGrid.Styles>
+
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}"></DataGridTextColumn>
+        <DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" Binding="{Binding Currency}"></DataGridTextColumn>
+        <DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}"></DataGridTextColumn>
+    </DataGrid.Columns>
+</DataGrid>
 ```		
+
+Альтернативный подход с изменением свойства в C#-коде:
+
+```csharp
+void dataGrid_LoadingRows(object sender, DataGridRowEventArgs e)
+{
+    var dataObject = e.Row.DataContext as YourDataObject;
+    if (dataObject != null && dataObject.Importance == "HIGH")
+        e.Row.Background = Brushes.Red;
+}
+```
 
 ## Добавление базы данных SQL
 
