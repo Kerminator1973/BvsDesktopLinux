@@ -82,7 +82,7 @@ public String DeviceName
 }
 ```
 
-Чтобы иметь возможность использовать использовать это свойство его необходимо зарегистрировать:
+Чтобы иметь возможность использовать это свойство его необходимо зарегистрировать:
 
 ``` csharp
 public static readonly StyledProperty<String> DeviceNameProperty =

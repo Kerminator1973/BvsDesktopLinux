@@ -213,6 +213,21 @@ class Program
 <i:Icon Value="fas fa-print" FontSize="20" />
 ```
 
+## DataTrigger
+
+В WPF доступна условная настройка визуального представления по зависимым свойствам - для этого используется **DataTrigger**. Например:
+
+``` csharp
+<DataGrid.ItemContainerStyle>
+    <Style TargetType="DataGridRow">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Dest}" Value="Jammed">
+                <Setter Property="Background" Value="Red"></Setter>
+                <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+```
+
+В Avalonia для подобных задач придётся использовать отдельный Package [Avalonia XAML Behaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) от Wiesław Šoltés. Package реализует Interaction.Behaviors, DataTriggerBehavior и ChangePropertyAction.
+
 ## Добавление базы данных SQL
 
 Создать db-файл можно используя plug-in VSCode [SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite) by alexcvzz.
