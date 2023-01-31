@@ -264,8 +264,8 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="5750", MODE="666
 
 ## LibUsbDotNet для проектов на C\#
 
-Для использования HID-устройств в приложениях .NET может быть использована библиотека LibUsb.NET, которая является обёрткой над [libusb](libhttps://github.com/libusb/libusb). Проект развивается на [площадке GitHub](https://github.com/LibUsbDotNet/LibUsbDotNet). В январе 2023 года последней версией была 3.0.0-alpha. Примеры доступны вместе с реализацией библиотеки.
+Для использования HID-устройств в приложениях .NET может быть использована библиотека LibUsb.NET, которая является обёрткой над [libusb](https://github.com/libusb/libusb). Проект развивается на [площадке GitHub](https://github.com/LibUsbDotNet/LibUsbDotNet). В январе 2023 года последней версией была 3.0.0-alpha. Примеры доступны вместе с реализацией библиотеки.
 
-На NuGet.org доступна сборка от 25.09.2018 (https://www.nuget.org/packages/LibUsbDotNet/) - версия 2.2.29. Примеры использования LibUsbDotNet доступны [здесь](https://libusbdotnet.sourceforge.net/V2/html/acc0426e-9f5e-43a7-9c1d-841cdef2c663.htm)
+На NuGet.org доступна [сборка от 25.09.2018](https://www.nuget.org/packages/LibUsbDotNet/) версии 2.2.29. Примеры использования LibUsbDotNet доступны [здесь](https://libusbdotnet.sourceforge.net/V2/html/acc0426e-9f5e-43a7-9c1d-841cdef2c663.htm)
 
 Следует заметить, что примеры кода для 2.2.29 и 3.0.0-alpha не совместимы между собой, хотя имеют схожую структуру. Так, например, в третьей версии используется класс UsbContext, а в версии 2.2.29 - LibUsbRegistry.
