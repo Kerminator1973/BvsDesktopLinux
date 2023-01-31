@@ -70,7 +70,7 @@ Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
 
 Команда `lsusb -v` выводит подробную информацию. Пример вывода для термопринтера:
 
-```
+```console
 Bus 002 Device 004: ID 0fe6:811e ICS Advent Parallel Adapter
 Device Descriptor:
   bLength                18
@@ -133,7 +133,7 @@ Device Status:     0x0000
 
 В предоставленных данных есть несколько важных параметров:
 
-```
+```console
 iProduct            2 GD32 Composite CDC Printer
 idVendor            0x0fe6 ICS Advent
 idProduct           0x811e Parallel Adapter
@@ -154,7 +154,7 @@ sudo apt install pip3
 sudo apt install libusb-1.0-0-dev
 ```
 
-Библиотека [libusb](libhttps://github.com/libusb/libusb) является кросс-платформенной библиотекой для доступа к USB-устройствам. Эта библиотека написана на Си и используется во многих других проектах, включая [PyUSB](https://github.com/pyusb/pyusb) и [libusb.net](https://github.com/LibUsbDotNet/LibUsbDotNet).
+Библиотека [libusb](https://github.com/libusb/libusb) является кросс-платформенной библиотекой для доступа к USB-устройствам. Эта библиотека написана на Си и используется во многих других проектах, включая [PyUSB](https://github.com/pyusb/pyusb) и [libusb.net](https://github.com/LibUsbDotNet/LibUsbDotNet).
 
 Также необходимо загрузить библиотку PyUSB для Python:
 
