@@ -283,7 +283,7 @@ sudo rmmod usbhid
 Также был выполнен замер времени исполнения различных методов библиотеки посредством Stopwatch:
 
 ``` csharp
-Stopwatch sw = new Stopwatch();
+var sw = new Stopwatch();
 
 sw.Start();
 var zstart = sw.ElapsedTicks;
@@ -345,3 +345,5 @@ namespace ConsoleTestWDT
     }
 }
 ```
+
+В примере есть недостатки - если прибор не подключен, то selectedDevice будет равен null и приложение развалиться с исключением.
