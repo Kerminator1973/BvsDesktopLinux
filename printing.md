@@ -270,10 +270,78 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="5750", MODE="666
 
 Следует заметить, что примеры кода для 2.2.29 и 3.0.0-alpha не совместимы между собой, хотя имеют схожую структуру. Так, например, в третьей версии используется класс UsbContext, а в версии 2.2.29 - LibUsbRegistry.
 
-Так же замечу, что первый опыт использования LibUsbDotNet, в целом, негативный. Взаимодействовать с DORS USB WDT удалось только после того, как был отключен драйвера usbhid с sudo:
+Так же замечу, что первый опыт использования LibUsbDotNet 2.2.29, в целом, негативный. Взаимодействовать с DORS USB WDT удалось только после того, как был отключен драйвера usbhid с sudo:
 
 ```shell
 sudo rmmod usbhid
 ```
 
 Кроме этого, размер read-буфера пришлось установить в фиксированное значение - 32 байта. Если размер буфера будет другой, то мы получим либо ошибку _Overflow_ (данных больше, чем ожидали), либо _Timeout_ (ожидаемое количество данных не получено). Выполняются какие-то внутренние инициализационные процессы и повторный запуск приложения может занимать до 10 секунд. Надёжность решение низкая. В API отсутствует множество функций, доступных в оригинальном libusb, например, отсутствует возможность выполнить _Reset_ устройства.
+
+Также было зафиксировано, что при обмене данными с DORS USB WDT первые две команды (GetStatus) не выполняются, но все последующие подаваемые команды (после, приблизительно, 200 мс) успешно выполняются.
+
+Также был выполнен замер времени исполнения различных методов библиотеки посредством Stopwatch:
+
+``` csharp
+Stopwatch sw = new Stopwatch();
+
+sw.Start();
+var zstart = sw.ElapsedTicks;
+
+// Находим устройство по Pid и Vid
+WdtUsbDevice = UsbDevice.OpenUsbDevice(DorsWdtUsbFinder);
+
+var zdelta = sw.ElapsedTicks - zstart;
+sw.Stop();
+Console.WriteLine("UsbDevice.OpenUsbDevice():\t{0} ms", (zdelta * 1000.0) / Stopwatch.Frequency);
+```
+
+Было выявлено, что злодеями являются OpenUsbDevice() и SetConfiguration(), которые в среднем выполняются по 8 и 2 секунды соответственно.
+
+### LibUsbDotNet 3.0.0-alpha
+
+Далее была выполнена попытка использовать библиотеку LibUsbDotNet версии 3.0.0-alpha, которая пока не доступна через nuget.org, но её исходники можно скачать с [GitHub](https://github.com/LibUsbDotNet/LibUsbDotNet).
+
+Использовался следующий базовый пример кода:
+
+``` csharp
+using LibUsbDotNet.LibUsb;
+using LibUsbDotNet.Main;
+
+namespace ConsoleTestWDT
+{
+    internal class Program
+    {
+        private const int ProductId = 0x5750;
+        private const int VendorId = 0x0483;
+
+        static void Main(string[] args)
+        {
+            using (var context = new UsbContext()) {
+                // Получить полный список подключенных устройств
+                var usbDeviceCollection = context.List();
+
+                // Выбрать нужное нам HID-устройство по PID и VID
+                var selectedDevice = usbDeviceCollection.FirstOrDefault(d => d.ProductId == ProductId && d.VendorId == VendorId);
+
+                // Открываем устройство для работы
+                selectedDevice.Open();
+
+                // Получаем интерфейс из первой конфигурации устройства
+                selectedDevice.ClaimInterface(selectedDevice.Configs[0].Interfaces[0].Number);
+
+                // Получаем Endpoints для записи и чтения данных
+                var writeEndpoint = selectedDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+                var readEnpoint = selectedDevice.OpenEndpointReader(ReadEndpointID.Ep01);
+
+                // Команда запроса состояния состоит только из одного байта
+                var cmdGetStatus = new byte[] { 0x0B };
+                writeEndpoint.Write(cmdGetStatus, 1000, out var bytesWritten);
+
+                var readBuffer = new byte[32];
+                readEnpoint.Read(readBuffer, 200, out var readBytes);
+            }
+        }
+    }
+}
+```
