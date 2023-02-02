@@ -257,7 +257,7 @@ sudo usermod -a -G lp developer
 При подключении прибора DORS USB WDT в папке `/dev/usb` появилось новое устройство **hiddev0**. Подход описанный выше позволяет отправлять в WDT команду и получать ответ устройства, но это требует повышения привелений посредством использования команды **sudo**. Чтобы запускать скрипт можно было и без sudo, следует добавить для конкретного устройства правила использования. Для этого необходимо добавить в папке `/etc/udev/rules.d` файл с любым именем и расширением "rules", например "dors-wdt.rules". В этот файл нужно добавить всего одну строку и перезапустить систему:
 
 ```cfg
-SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="5750", MODE="666
+SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="5750", MODE="666"
 ```
 
 Приведённая выше слова указывает, что для USB-устройства с указанными VID и PID имеет все необходимые права доступа "666".
@@ -348,7 +348,7 @@ namespace ConsoleTestWDT
 
 В примере есть недостатки - если прибор не подключен, то selectedDevice будет равен null и приложение сгенерирует исключение.
 
-Известные особенности версии 3.0.0-alpha:
+Выявленные нами особенности версии 3.0.0-alpha:
 
 - Тайм-ауты игнорируются, а их реальные значения - одна секунда
 - Самая длительная операция selectedDevice.Configs[0], в среднем занимает 300 мс, но может выполняться и 900+ мс (но редко)
@@ -362,5 +362,57 @@ writeEndpoint.Write(cmdGetStatus, 500, out var bytesWritten);
 
 ### Дополнительные материалы для изучения (USB HID)
 
-https://github.com/badcel/HidApi.Net
-https://github.com/libusb/libusb/wiki/FAQ#user-content-Does_libusb_support_USB_HID_devices
+Вместе с тем, сами [разработчики LibUsb](https://github.com/libusb/libusb/wiki/FAQ#user-content-Does_libusb_support_USB_HID_devices) для работы с HID рекомендуют использовать библиотеку [HidApi.Net](https://github.com/badcel/HidApi.Net).
+
+Предварительно требуется установить библиотеку libhidapi-hidraw0:
+
+``` shell
+sudo apt install libhidapi-hidraw0
+```
+
+А также добавить в rules настройки доступа для модулей HID-устройств (например, в файл `/etc/udev/rules.d/90-hid.rules`) строку:
+
+``` config
+KERNEL=="hidraw*", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5750", MODE="666"
+```
+
+Перегрузить настройки доступа можно командой:
+
+``` shell
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
+
+В проект сборки следует добавить библиотеку [HidApi.Net](https://www.nuget.org/packages/HidApi.Net), используя команду:
+
+``` shell
+dotnet add package HidApi.Net --version 0.2.1
+```
+
+Пример перечисления подключенных HID:
+
+``` csharp
+using HidApi;
+
+foreach (var deviceInfo in Hid.Enumerate())
+{
+    using var device = deviceInfo.ConnectToDevice();
+    Console.WriteLine($"VID: {deviceInfo.VendorId} PID: {deviceInfo.ProductId} : {device.GetManufacturer()}");
+    
+}
+Hid.Exit(); //Call at the end of your program
+```
+
+Пример обмена данными через hidraw:
+
+``` csharp
+var device1 = new Device(0x0483, 0x5750); //Fill vendor id and product id
+Console.WriteLine($"{device1.GetManufacturer()}");
+
+byte[] w = new byte[] { 0x00, 0x0B };
+device1.Write(w);
+ReadOnlySpan<byte> ff = device1.ReadTimeout(65, 1000);
+
+Hid.Exit(); //Call at the end of your program
+```
+
+Библиотека HidApi.Net существенно проще, чем LibUsbDotNet и работает через hidraw, а не через usb, что позволяет избежать необходимости выгружать модуль **usbhid** перед запуском приложения командой: `sudo rmmod usbhid`
