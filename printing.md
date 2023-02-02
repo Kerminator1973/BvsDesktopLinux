@@ -352,6 +352,13 @@ namespace ConsoleTestWDT
 
 - Тайм-ауты игнорируются, а их реальные значения - одна секунда
 - Самая длительная операция selectedDevice.Configs[0], в среднем занимает 300 мс, но может выполняться и 900+ мс (но редко)
+- размер буфера должен быть 32 байта не только для чтения, но и для записи. Т.е. ключевой код должен выглядеть так:
+
+```csharp
+var cmdGetStatus = new byte[32];
+cmdGetStatus[0] = 0x0B;
+writeEndpoint.Write(cmdGetStatus, 500, out var bytesWritten);
+```
 
 ### Проблема отладки кода на машине с VMWare Player 16
 
