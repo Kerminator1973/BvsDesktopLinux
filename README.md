@@ -128,7 +128,13 @@ private void UpdateWdtStatus(long rollOutDoor)
 }
 ```
 
-Вызов метода главного потока в WPF выглядит схожим образом, он сложнее, но он более явным образом:
+Вызов метода главного потока в WPF выглядит схожим образом:
+
+``` csharp
+Dispatcher.BeginInvoke((Action)(() => appTabControl.SelectedIndex = 0));
+```
+
+Приведённый выше пример функционального эквивалентен более многословному, но более формальному варианту:
 
 ``` csharp
 onDownloadTaskCompletedCallback fnDownloadCallback;
