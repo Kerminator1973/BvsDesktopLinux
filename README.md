@@ -97,6 +97,56 @@ dotnet run
              x:Class="BVSDesktop.App" StartupUri="MainWindow.xaml">
 ```
 
+## Вызов потока пользовательского интерфейса
+
+В Avalonia, вызывать некоторый метод в потоке пользовательского интферейса (основной поток) можно следующим вызовом:
+
+``` csharp
+Dispatcher.UIThread?.InvokeAsync(() => { 
+    this.UpdateWdtStatus(_rollOutDoor); 
+});
+```
+
+При этом, сам метод абсоютно типовой:
+
+``` csharp
+private void UpdateWdtStatus(long rollOutDoor)
+{
+    if (null != DataContext && DataContext is TestsViewModel)
+    {
+        switch(rollOutDoor) {
+            case 0:
+                ((TestsViewModel)DataContext).IsRollOutDoorOpen = false;
+                RollOutDoor.Source = DoorClosed;
+                break;
+            case 1:
+                ((TestsViewModel)DataContext).IsRollOutDoorOpen = true;
+                RollOutDoor.Source = DoorOpened;
+                break;
+        }
+    }
+}
+```
+
+Вызов метода главного потока в WPF выглядит схожим образом, он сложнее, но он более явным образом:
+
+``` csharp
+onDownloadTaskCompletedCallback fnDownloadCallback;
+...
+private void InitializeDelegates()
+{
+    fnDownloadCallback = new onDownloadTaskCompletedCallback(onDownloadTaskCompleted);
+}
+...
+private void onDownloadTaskCompleted(App app, string _ip, string _uin, string _status)
+{
+    ...
+}
+...
+Application.Current.Dispatcher.BeginInvoke(
+    fnDownloadCallback, new object[] { app, IPAddress, UIN, Status });
+```
+
 ## Различия в наборе компонентов пользовательского интерфейса и их атрибутах
 
 XAML и Avalonia также очень сильно расходятся в наборе атрибутов органов управления; фактически - это два разных набора органов управления.
