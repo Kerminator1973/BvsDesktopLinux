@@ -84,8 +84,10 @@ namespace ConsoleTestWDT
                 var writeEndpoint = selectedDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
                 var readEnpoint = selectedDevice.OpenEndpointReader(ReadEndpointID.Ep01);
 
-                // Команда запроса состояния состоит только из одного байта
-                var cmdGetStatus = new byte[] { 0x0B };
+                // Команда запроса состояния состоит только из одного байта. Однако, чтобы
+                // код работал, необходимо передавать 32 байта (размер блока)
+                var cmdGetStatus = new byte[32];
+                cmdGetStatus[0] = 0x0B;
                 writeEndpoint.Write(cmdGetStatus, 1000, out var bytesWritten);
 
                 var readBuffer = new byte[32];
