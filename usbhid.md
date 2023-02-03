@@ -166,3 +166,7 @@ Hid.Exit(); //Call at the end of your program
 ```
 
 Библиотека HidApi.Net существенно проще, чем LibUsbDotNet и работает через hidraw, а не через usb, что позволяет избежать необходимости выгружать модуль **usbhid** перед запуском приложения командой: `sudo rmmod usbhid`
+
+### Работа приложений под Microsoft Windows
+
+Обе библиотеки являются кросс-платформенными и могут работать как под Linux, так и под Windows. Для их работы под Windows, необходимо скопировать в подкаталог с приложением Avalonia файл libusb-1.0.dll для использования LibUsbDotNet, или файл hidapi.dll для использования HidApi.NET.
