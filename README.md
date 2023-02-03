@@ -162,7 +162,7 @@ XAML и Avalonia также очень сильно расходятся в на
 А Avalonia является допустимой сокращённая форма определения количества строк/колонок и их высоты/ширины:
 
 ```csharp
-<Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+<Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto,*,Auto">
 ```
 
 Grid в Avalonia не имеет свойства **ColSpan**, но есть **ColumnSpan**. Правила использования те же самые.
