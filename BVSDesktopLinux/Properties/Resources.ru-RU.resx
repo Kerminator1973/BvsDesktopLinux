@@ -126,6 +126,9 @@
   <data name="NoteId" xml:space="preserve">
     <value>№</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
   <data name="TitleBillReport" xml:space="preserve">
     <value>Принятые купюры</value>
   </data>

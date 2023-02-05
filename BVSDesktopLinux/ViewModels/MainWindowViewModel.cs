@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using Microsoft.EntityFrameworkCore;    // Нужен в случае использования Migrate()
+using Microsoft.Data.Sqlite;
 
 namespace BvsDesktopLinux.ViewModels
 {
@@ -102,11 +103,20 @@ namespace BvsDesktopLinux.ViewModels
             {
                 if (!_dbContext.Database.EnsureCreated())
                 {
-
                     var pendingMigrations = _dbContext.Database.GetPendingMigrations();
                     if (pendingMigrations.Any())
                     {
-                        _dbContext.Database.Migrate();  // Определён в Microsoft.EntityFrameworkCore;
+                        try
+                        {
+                            _dbContext.Database.Migrate();  // Определён в Microsoft.EntityFrameworkCore;
+                        }
+                        catch (SqliteException ex) {
+                            // Это исключение может срабатывать каждый раз, т.к. в проекте есть
+                            // несколько миграций и метод GetPendingMigrations() именно об этом
+                            // и сообщает.
+                            // TODO: нужно проверять, применены ли миграции, или нет
+                            Console.WriteLine(ex);
+                        }
                     }
                 }
             }
@@ -128,9 +138,11 @@ namespace BvsDesktopLinux.ViewModels
             if (null == _banknotes)
             {
                 var banknotes = new List<Banknote> {
-                    new Banknote { Id = 1, Currency = "RUB", Denomination = "10" },
-                    new Banknote { Id = 2, Currency = "RUB", Denomination = "50" },
-                    new Banknote { Id = 3, Currency = "RUB", Denomination = "100" }
+                    new Banknote { Id = 1, Currency = "RUB", Denomination = "10", Status="" },
+                    new Banknote { Id = 2, Currency = "RUB", Denomination = "50", Status="" },
+                    new Banknote { Id = 3, Currency = "RUB", Denomination = "1000", Status="Rejected" },
+                    new Banknote { Id = 4, Currency = "RUB", Denomination = "200", Status="" },
+                    new Banknote { Id = 5, Currency = "RUB", Denomination = "0", Status="Jammed" }
                 };
 
                 banknotes.ForEach(s => _dbContext.Banknotes.Add(s));
@@ -149,10 +161,10 @@ namespace BvsDesktopLinux.ViewModels
             Banknotes.Clear();
 
             // Добавляем в список несколько описаний "принятых" купюр для имитации взноса
-            Banknotes.Add(new Banknote { Id = 4, Currency = currency, Denomination = "200" });
-            Banknotes.Add(new Banknote { Id = 5, Currency = currency, Denomination = "100" });
-            Banknotes.Add(new Banknote { Id = 6, Currency = currency, Denomination = "2000" });
-            Banknotes.Add(new Banknote { Id = 7, Currency = currency, Denomination = "5000" });
+            Banknotes.Add(new Banknote { Id = 6, Currency = currency, Denomination = "200", Status = "" });
+            Banknotes.Add(new Banknote { Id = 7, Currency = currency, Denomination = "100", Status = "Rejected" });
+            Banknotes.Add(new Banknote { Id = 8, Currency = currency, Denomination = "2000", Status = "" });
+            Banknotes.Add(new Banknote { Id = 9, Currency = currency, Denomination = "5000", Status = "" });
 
             return Banknotes.Count;
         }

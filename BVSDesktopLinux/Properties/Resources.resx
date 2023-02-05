@@ -126,6 +126,9 @@
   <data name="NoteId" xml:space="preserve">
     <value>No.</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
   <data name="TitleBillReport" xml:space="preserve">
     <value>Bill Report</value>
   </data>
