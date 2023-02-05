@@ -220,6 +220,10 @@ Avalonia XAML Behaviors является портом библиотеки **Win
 Ниже приведён пример, в котором текст в TextBox зависит от значения свойства IsBanknoteSelected:
 
 ``` csharp
+<Window 
+    xmlns:int="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions" />
+...
 <TextBox Name="textbox" Margin="10,5,10,5">
     <int:Interaction.Behaviors>
         <ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="true">
