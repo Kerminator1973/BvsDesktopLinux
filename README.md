@@ -213,71 +213,29 @@ class Program
                 <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
 ```
 
-В Avalonia для подобных задач придётся использовать отдельный Package [Avalonia XAML Behaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) от Wiesław Šoltés. Package реализует Interaction.Behaviors, DataTriggerBehavior и ChangePropertyAction.
-
-Avalonia XAML Behaviors является простой в использовании библиотекой, которая добавляет общее, повторно используемое поведение органов управления при взаимодействии с пользователем в ваши Avalonia-приложения с добавлением минимального количества кода.
+В Avalonia для подобных задач придётся использовать отдельный Package [Avalonia XAML Behaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) от Wiesław Šoltés. Package реализует Interaction.Behaviors, DataTriggerBehavior и ChangePropertyAction. Найти библиотеку на nuget.org можно по имени: `Avalonia.Xaml.Behaviors`.
 
 Avalonia XAML Behaviors является портом библиотеки **Windows UWP version of XAML Behaviors**.
 
-Установить библиотеку можно командой в Package Manager Console:
-
-``` cmd
-Install-Package Avalonia.Xaml.Behaviors
-```
-
-Для примера, можно попробовать изменить цвет отдельной строки, в зависимости от значения конкретного поля. Если не использовать интерактивность, то для всех элементов DataGrid изменить фоновый цвет можно следующей версткой:
-
-```csharp
-<DataGrid.Styles>
-    <Style Selector="DataGridRow">
-        <Setter Property="Background" Value="LightGreen" />
-    </Style>
-</DataGrid.Styles>
-```
-
-При необходимости добавления условного изменения стиля, следует использовать Interaction.Behaviors и DataTriggerBehavior.
+Ниже приведён пример, в котором текст в TextBox зависит от значения свойства IsBanknoteSelected:
 
 ``` csharp
-<Window xmlns="https://github.com/avaloniaui"
-    xmlns:int="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"		
+<TextBox Name="textbox" Margin="10,5,10,5">
+    <int:Interaction.Behaviors>
+        <ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="true">
+            <ia:ChangePropertyAction TargetObject="{Binding #textbox}" PropertyName="Text" Value="Yes! An item selected" />
+        </ia:DataTriggerBehavior>
+        <ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="false">
+            <ia:ChangePropertyAction TargetObject="{Binding #textbox}" PropertyName="Text" Value="There is no any selection here" />
+        </ia:DataTriggerBehavior>
+    </int:Interaction.Behaviors>
+</TextBox>
 ```
 
-Экземпляр класса **DataTriggerBehavior** проверяет некоторое условие и если оно исполняется, то выполняет действия, определённые как его дочерние элементы (обычно это классы ChangePropertyAction). Экземпляр класса **ChangePropertyAction** ищёт объект, указанный в атрибуте TargetObject и изменяет его свойство. Т.е. этот подход чаще всего используется, когда нужно обеспечить зависимость свойств одного объекта от значений атрибутов другого объекта.
+Однако, практически ценные кейсы использования Avalonia.Xaml.Behaviors не работают:
 
-Практические примеры:
-
-- Если ширина Panel устанавливается меньше 500 пикселей, то некоторый орган управления не отбражается
-- Если CheckBox устанавливается в значение True, то изменяется некоторая картинка на экране
-
-Пример код (КОТОРЫЙ ПОКА НЕ РАБОТАЕТ КАК НУЖНО):
-
-``` csharp
-<DataGrid AutoGenerateColumns="False" Margin="10"
-            Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
-            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-
-    <DataGrid.Styles>
-        <Style Selector="DataGridRow">
-            <int:Interaction.Behaviors>
-                <ia:DataTriggerBehavior Binding="{Binding Denomination}"
-                                        ComparisonCondition="Equal"
-                                        Value="100">
-                    <ia:ChangePropertyAction TargetObject="DataTriggerRectangle"
-                                        PropertyName="Background"
-                                        Value="{DynamicResource YellowBrush}" />
-                </ia:DataTriggerBehavior>
-            </int:Interaction.Behaviors>
-        </Style>
-    </DataGrid.Styles>
-
-    <DataGrid.Columns>
-        <DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}"></DataGridTextColumn>
-        <DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" Binding="{Binding Currency}"></DataGridTextColumn>
-        <DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}"></DataGridTextColumn>
-    </DataGrid.Columns>
-</DataGrid>
-```		
+- выбор картинки в зависимости от свойства
+- установка фонового цвета строка, в зависимости от текста в ячейки DataGrid
 
 ### Выделить цветом строку DataGrid, используя программный код
 

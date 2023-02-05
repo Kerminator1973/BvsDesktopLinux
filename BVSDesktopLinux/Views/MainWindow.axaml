@@ -12,25 +12,9 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="BvsDesktopLinux">
 
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-
-		<Grid IsVisible="{Binding UiVisible}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="auto" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="auto" />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-
+	<Grid ColumnDefinitions="*" RowDefinitions="*" >
+		
+		<Grid IsVisible="{Binding UiVisible}" ColumnDefinitions="auto,*,auto" RowDefinitions="auto,*,auto">
 			<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10, 10, 10, 0">
 				<!-- Могут быть использованы префиксы: fas (solid), far (regular) и fab (brands) -->
 				<Button Margin="0,0,5,0" Command="{Binding RestoreCounts}" CommandParameter="RUB">
@@ -60,7 +44,6 @@
 						<i:Icon Value="fas fa-print" FontSize="20" />
 					</Border>
 				</Button>
-
 			</StackPanel>
 
 			<Border Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="2" CornerRadius="8" 
@@ -83,22 +66,6 @@
 			<DataGrid AutoGenerateColumns="False" Margin="10" LoadingRow="DataGrid_OnLoadingRow"
 					  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
 					  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-
-				<!-- 
-				<DataGrid.Styles>
-					<Style Selector="DataGridRow">
-						<int:Interaction.Behaviors>
-							<ia:DataTriggerBehavior Binding="{Binding Denomination}"
-													ComparisonCondition="Equal"
-													Value="50">
-								<ia:ChangePropertyAction TargetObject="DataTriggerRectangle"
-													PropertyName="Background"
-													Value="Yellow" />
-							</ia:DataTriggerBehavior>
-						</int:Interaction.Behaviors>
-					</Style>
-				</DataGrid.Styles>
-				-->
 				
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}"></DataGridTextColumn>
@@ -107,6 +74,34 @@
 					<DataGridTextColumn Header="{x:Static p:Resources.Status}" Binding="{Binding Status}"></DataGridTextColumn>
 				</DataGrid.Columns>
 			</DataGrid>
+
+			<StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+
+				<!-- Вариант с привязкой текста к свойству (IsBanknoteSelected) работает -->
+				<TextBox Name="textbox" Margin="10,5,10,5">
+					<int:Interaction.Behaviors>
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="true">
+							<ia:ChangePropertyAction TargetObject="{Binding #textbox}" PropertyName="Text" Value="Yes! An item selected" />
+						</ia:DataTriggerBehavior>
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="false">
+							<ia:ChangePropertyAction TargetObject="{Binding #textbox}" PropertyName="Text" Value="There is no any selection here" />
+						</ia:DataTriggerBehavior>
+					</int:Interaction.Behaviors>
+				</TextBox>
+
+				<!-- Однако, вариант с отображением конкретной картинки, в зависимости от конкретного свойства НЕ РАБОТАЕТ
+				<Image Name="image" Height="100" Margin="0,0,0,10">
+					<int:Interaction.Behaviors>
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="true">
+							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" Value="avares://BvsDesktopLinux/Assets/banknote100.jpg" />
+						</ia:DataTriggerBehavior>
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="false">
+							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" Value="avares://BvsDesktopLinux/Assets/banknote200.jpg" />
+						</ia:DataTriggerBehavior>
+					</int:Interaction.Behaviors>
+				</Image>
+				-->
+			</StackPanel>
 
 		</Grid>
 

@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using Microsoft.EntityFrameworkCore;    // Нужен в случае использования Migrate()
-using Microsoft.Data.Sqlite;
 
 namespace BvsDesktopLinux.ViewModels
 {
@@ -20,9 +19,9 @@ namespace BvsDesktopLinux.ViewModels
         // через DataGrid и метод CanUpdate() кнопки "Delete Item", необходимо создать
         // дополнительной свойство IsBanknoteSelected, через которое и передаётся
         // информация об изменении выбранного элемента
-        private bool isBanknoteSelected = false;
+        private Boolean isBanknoteSelected = false;
 
-        public bool IsBanknoteSelected
+        public Boolean IsBanknoteSelected
         {
             get { return isBanknoteSelected; }
             set
@@ -110,7 +109,7 @@ namespace BvsDesktopLinux.ViewModels
                         {
                             _dbContext.Database.Migrate();  // Определён в Microsoft.EntityFrameworkCore;
                         }
-                        catch (SqliteException ex) {
+                        catch (Exception ex) {
                             // Это исключение может срабатывать каждый раз, т.к. в проекте есть
                             // несколько миграций и метод GetPendingMigrations() именно об этом
                             // и сообщает.
