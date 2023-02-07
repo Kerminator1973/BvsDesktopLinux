@@ -112,6 +112,80 @@ cmdGetStatus[0] = 0x0B;
 writeEndpoint.Write(cmdGetStatus, 500, out var bytesWritten);
 ```
 
+### Работа с термопринтером, с установленным CUPS-драйвером
+
+В случае, если в Linux установлен CUPS-драйвер для принтера, можно использовать бибилиотеку LibUsbDotNet для получения состояния принтера, но это потребует внести изменения в исходный код библиотеки. Изменить пришлось метод Open в классе UsbDevice:
+
+``` csharp
+namespace LibUsbDotNet.LibUsb
+{
+    public partial class UsbDevice
+    {
+        public void Open()
+        {
+            this.OpenNative().ThrowOnError();
+
+            var error = NativeMethods.SetAutoDetachKernelDriver(this.DeviceHandle, 1);
+            // Результат error пока не используеся
+        }
+```
+
+Соответственно код получения состояния принтера Xiamen Cashino **CSN-A1K-U** выглядит так:
+
+``` csharp
+using LibUsbDotNet.LibUsb;
+using LibUsbDotNet.Main;
+
+namespace ConsoleTestWDT
+{
+    internal class Program
+    {
+        private const int VendorId = 0x0fe6;
+        private const int ProductId = 0x811e;
+
+        static void Main(string[] args)
+        {
+            using (var _context = new UsbContext())
+            {
+                var usbDeviceCollection = _context.List();
+                var device = usbDeviceCollection.FirstOrDefault(d => 
+                    d.ProductId == ProductId && d.VendorId == VendorId);
+                if (null != device)
+                {
+                    // Открываем соединение с USB HID
+                    device.Open();
+
+                    // Настройка интерфейса
+                    device.ClaimInterface(device.Configs[0].Interfaces[0].Number);
+
+                    var writeEndpoint = device?.OpenEndpointWriter(WriteEndpointID.Ep01);
+                    var readEnpoint = device?.OpenEndpointReader(ReadEndpointID.Ep01);
+
+                    if (null != writeEndpoint && null != readEnpoint) {
+
+                        var cmdGetStatus = new byte[64];    // Команда запроса состояния принтера
+                        cmdGetStatus[0] = 0x1B;
+                        cmdGetStatus[1] = 0x76;
+                        cmdGetStatus[2] = 0x00;
+                        writeEndpoint.Write(cmdGetStatus, 500, out var bytesWritten);
+                        if (0 != bytesWritten) {
+
+                            var readBuffer = new byte[64];
+                            var error = readEnpoint.Read(readBuffer, 500, out var readBytes);
+
+                            if (readBytes > 0) {
+                                string r = BitConverter.ToString(readBuffer);                    
+                                Console.WriteLine(r);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
 ### Дополнительные материалы для изучения (USB HID)
 
 Вместе с тем, сами [разработчики LibUsb](https://github.com/libusb/libusb/wiki/FAQ#user-content-Does_libusb_support_USB_HID_devices) для работы с HID рекомендуют использовать библиотеку [HidApi.Net](https://github.com/badcel/HidApi.Net).
