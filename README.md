@@ -200,6 +200,30 @@ class Program
 <i:Icon Value="fas fa-print" FontSize="20" />
 ```
 
+## Убрать Caption / Title bar
+
+Для того, чтобы убрать Caption / Title bar необходимо установить атрибуты главного окна:
+
+```csharp
+<Window xmlns="https://github.com/avaloniaui"
+        CanResize="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0">
+```
+
+Но этот вариант не работает в Linux, т.к. Caption - это [декоратор Gnome](https://stackoverflow.com/questions/67474194/avalonia-hiding-titlebar-window-on-linux-does-not-work)
+
+Чтобы работало под Linux, нужно к приведённым выше параметрам выполнить ещё и следующий код:
+
+``` csharp
+public MainWindow()
+{
+    WindowState = WindowState.FullScreen;
+
+    InitializeComponent();
+```
+
 ## Использование DataTrigger
 
 В WPF доступна условная настройка визуального представления по зависимым свойствам - для этого используется **DataTrigger**. Например:

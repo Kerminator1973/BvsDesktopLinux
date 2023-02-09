@@ -167,7 +167,7 @@ namespace ConsoleTestWDT
                         cmdGetStatus[0] = 0x1B;
                         cmdGetStatus[1] = 0x76;
                         cmdGetStatus[2] = 0x00;
-                        writeEndpoint.Write(cmdGetStatus, 500, out var bytesWritten);
+                        writeEndpoint.Write(cmdGetStatus, 2000, out var bytesWritten);
                         if (0 != bytesWritten) {
 
                             var readBuffer = new byte[64];
@@ -185,6 +185,8 @@ namespace ConsoleTestWDT
     }
 }
 ```
+
+Экспериментально установлено, что для получения состояния конкретного термопринтера, тайм-аут для записи данных необходимо использовать не 500 мс, а две секунды.
 
 ### Дополнительные материалы для изучения (USB HID)
 
