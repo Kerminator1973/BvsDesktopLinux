@@ -224,6 +224,27 @@ public MainWindow()
     InitializeComponent();
 ```
 
+## Получить ссылку на главное окно из ViewModel
+
+Сделать это можно следующим образом:
+
+``` csharp
+public class MainWindowViewModel : ViewModelBase
+{
+    public void OnCloseApp()
+    {
+        // Получаем доступ к главному окну приложения и закрываем приложение через окно
+        if (Application.Current != null)
+        {
+            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.MainWindow.Close();
+            }
+        }
+    }
+}
+```
+
 ## Использование DataTrigger
 
 В WPF доступна условная настройка визуального представления по зависимым свойствам - для этого используется **DataTrigger**. Например:
