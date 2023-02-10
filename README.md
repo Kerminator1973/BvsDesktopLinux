@@ -200,6 +200,41 @@ class Program
 <i:Icon Value="fas fa-print" FontSize="20" />
 ```
 
+## Стилистическое оформление
+
+В Avalonia используется подход, максимально близкий к CSS из HTML: определяется некоторый стиль, который затем может быть назначен органу управления.
+
+Определить стили (в частности: h1 и h5 для блоков текста) можно, например, так:
+
+``` csharp
+<Window.Styles>
+    <Style Selector="TextBlock.h1">
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+    </Style>
+    <Style Selector="TextBlock.h5">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+    </Style>
+    
+    <Style Selector="Button">
+        <Setter Property="Background" Value="#e6e6e6"/>
+    </Style>
+    <Style Selector="Grid">
+        <Setter Property="Background" Value="#e6e6e6"/>
+    </Style>
+</Window.Styles>
+```
+
+Затем можно применить стили к конкретным органам управления через атрибут **Classes**:
+
+``` csharp
+<TextBlock Text="{x:Static prop:Resource.WdtStatus}" Classes="h2" />
+```
+
+Следует заметить, что можно определить стили в родительском элементе (**Window**), а использовать - во вложенных дочерних элементах (**UserControl**).
+
 ## Убрать Caption / Title bar
 
 Для того, чтобы убрать Caption / Title bar необходимо установить атрибуты главного окна:
