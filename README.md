@@ -506,7 +506,9 @@ public static class CustomCommands
 }
 ```
 
-Определённая команда может использоваться, практически, везде - в меню, кнопках, контекстном меню. В Avalonia UI команда определяется как часть ViewModel, см. [Binding to Commands](https://docs.avaloniaui.net/docs/data-binding/binding-to-commands#icommandexecute). Пример:
+Определённая команда может использоваться, практически, везде - в меню, кнопках, контекстном меню.
+
+В Avalonia UI команда определяется как часть ViewModel, см. [Binding to Commands](https://docs.avaloniaui.net/docs/data-binding/binding-to-commands#icommandexecute). Пример:
 
 ``` xml
 <Button Margin="0,0,5,0" Command="{Binding RestoreCounts}" CommandParameter="RUB" />
@@ -539,7 +541,7 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 }
 ```
 
-В действительности, у Avalonia UI есть некоторая проблема с использованием события (event) PropertyChanged в классе производном от ViewModelBase. Заметим, что автоматически генерируемый по шаблону Avalonia проект содержит класс MainWindowViewModel, производный от ViewModelBase. Проблема состоит в том, что ViewModelBase наследуется ReactiveObject, а в ReactiveObject уже определено событие PropertyChanged, которое имеет модификато доступа private. Возникает коллизия, которая не нравится компилятору и может иметь побочные эффекты.
+В действительности, у Avalonia UI есть некоторая проблема с использованием события (event) PropertyChanged в классе производном от ViewModelBase. Заметим, что автоматически генерируемый по шаблону Avalonia проект содержит класс MainWindowViewModel, производный от ViewModelBase. Проблема состоит в том, что ViewModelBase наследуется ReactiveObject, а в ReactiveObject уже определено событие PropertyChanged, которое имеет модификатор доступа private. Возникает коллизия, которая не нравится компилятору и может иметь побочные эффекты.
 
 Чтобы обойти ограничение, следует использовать вспомогательное зависимое свойство IsBanknoteSelected:
 
