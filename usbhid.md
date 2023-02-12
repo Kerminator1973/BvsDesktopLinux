@@ -112,7 +112,33 @@ cmdGetStatus[0] = 0x0B;
 writeEndpoint.Write(cmdGetStatus, 500, out var bytesWritten);
 ```
 
-### Структура проекта LinUsbDotNet
+### Структура проекта LibUsbDotNet
+
+Основываясь на изучении исходных текстов, можно сделать заключение, что библиотека развивалась Travis Robinson с 2006 по 2010 год, а затем, с 2011 по 2018 год, группой разработчиков, которые называют себя "LibUsbDotNet contributors".
+
+Подкаталог Docs содержит автоматически сгенерированные файлы с расширением AML (Microsoft Assistance Markup Language File). Основываясь на содержимом файлов, источник информации для автоматической обработки - исходные тексты. Используется подход близкий к [DoxyGen](https://www.doxygen.nl/). Release Notes велся только до версии 2.2.7.
+
+В коде есть папка BenchmarkCon, что предполагает, что автор кода осуществлял анализ производительности кода. По ссылкам в документации, похоже, что использовался специализированный инструмент - [Travis Robinson libUsbK](https://github.com/me21/usb-travis/tree/master/libusbK).
+
+В папке "Examples" есть пять примеров приложений. Похоже, что в папке "MonoLibUsb" находятся примеры для сборки с использованием проекта [Mono](https://www.mono-project.com/). Mono - это проект от корпорации Xamarin, запущенной в 2004 году.
+
+Часть исходных текстов проекта создаётся автоматически - для этого используется инструмент, исходники которого находятся в папке "LibUsbDotNet.Generator". Обрабатывается заголовочный файл библиотеки "libusb-1.0/libusb.h", на основании которого создаётся wrapper для библиотеки в папке "./LibUsbDotNet/Generated". Генерируются как структуры, так и обёртки для native-методов:
+
+``` csharp
+[DllImport(LibUsbNativeLibrary, EntryPoint = "libusb_init")]
+public static extern Error Init(ref IntPtr ctx);
+
+[DllImport(LibUsbNativeLibrary, EntryPoint = "libusb_exit")]
+public static extern void Exit(IntPtr ctx);
+```
+
+Папка "LibUsbDotNet.Tests" содержит всего четыре простых теста библиотеки и, на февраль 2023 года, бесполезна для обеспечения качества продукта.
+
+Проект в папке "Test_DeviceNotify" иллюстрирует, как можно подписаться на получение системных событий **WM_DEVICECHANGE** (см.: USB DEVICEINTERFACE, PORT, и VOLUME).
+
+Утилита "Test_Info" выводит список подключенных USB-устройств, используя LibUsbDotNet. Эта утилита похожа на утилиту **lsusb**, используемую в ОС Linux.
+
+Исходя из предоставленной структуры проекта, в проекты использующие LibUsbDotNet достаточно скопировать только подпапку "\src\LibUsbDotNet" репозитария.
 
 ### Работа с термопринтером, с установленным CUPS-драйвером
 
@@ -131,6 +157,8 @@ namespace LibUsbDotNet.LibUsb
             // Результат error пока не используеся
         }
 ```
+
+Если бы потребовалось минимизировать влияние на базовую библиотеку, то следовало бы добавить новый метод SetAutoDetachKernelDriver(), добавив его прототип в **IUsbDevice**, а также в реализацию **UsbDevice**.
 
 Соответственно код получения состояния принтера Xiamen Cashino **CSN-A1K-U** выглядит так:
 
