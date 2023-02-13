@@ -114,7 +114,17 @@ writeEndpoint.Write(cmdGetStatus, 500, out var bytesWritten);
 
 ### Структура проекта LibUsbDotNet
 
-Основываясь на изучении исходных текстов, можно сделать заключение, что библиотека развивалась Travis Robinson с 2006 по 2010 год, а затем, с 2011 по 2018 год, группой разработчиков, которые называют себя "LibUsbDotNet contributors".
+Основываясь на изучении исходных текстов, можно сделать заключение, что библиотека развивалась Travis Lee Robinson с 2006 по 2010 год, а затем, с 2011 по 2018 год, группой разработчиков, которые называют себя "LibUsbDotNet contributors". По каким-то причинам, следы активной работы Travis Robinson заканчиваются в 2012 году.
+
+Для информации. Частота и авторство изменений в LibUsbDotNet:
+
+- Commits on Oct 28, 2022 - обновление среды сборки
+- Commits on Oct 16, 2022 - GitHub Actions от jaroban
+- Commits on Dec 7, 2021 - Добавлен GitHub Actions (видимо, выполнение Unit-тестов)
+- Commits on Jun 7, 2021 - qmfrederik (автор) - миграция на .NET Core
+- Commits on Dec 2, 2020 - доработки прислал exelix11
+- Commits on May 19, 2020 - мелкие доработки автора
+- Commits on Apr 16, 2020 - мелкие доработки автора
 
 Подкаталог Docs содержит автоматически сгенерированные файлы с расширением AML (Microsoft Assistance Markup Language File). Основываясь на содержимом файлов, источник информации для автоматической обработки - исходные тексты. Используется подход близкий к [DoxyGen](https://www.doxygen.nl/). Release Notes велся только до версии 2.2.7.
 
