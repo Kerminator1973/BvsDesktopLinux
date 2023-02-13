@@ -162,3 +162,60 @@ public partial class MainWindow : Window
     }
 }
 ```
+
+## Передать сообщение из ViewModel во View
+
+К сожалению, далеко не во всех случаях можно добиться нужно отображения во View лишь изменив зависимые свойства. Например, в случае, при изменении некоторого свойства изменяется композиция из точечных изображений (Bitmap), то получение события может осуществляться во ViewModel, а управлять композицией из кода можно непосредственно во View.
+
+Поскольку получить доступ ко View из ViewModel - противоречит требованиям шаблона MVVM, рекомендуется следующий подход:
+
+- в ModelView определяются делегаты (callback-функции) через которые рассылаются события
+- При создании View он получает DataContext и подписывается на события ModelView
+- При обработке события, ModelView вызывает callback-функцию и View обрабатывает его в своём методе
+
+Определить callback-функции в ViewModel можно следующим образом:
+
+``` csharp
+public partial class MainWindowViewModel : ViewModelBase
+{
+    public delegate void onWdtUpdateHWVersionCallback(int major, int minor);
+    public onWdtUpdateHWVersionCallback? fnWdtUpdateHWVersionCallback;
+```
+
+Установка callback-функции во View может выглядеть так:
+
+``` csharp
+public partial class ScreenWdtStatus : UserControl
+{
+    public ScreenWdtStatus()
+    {
+        InitializeComponent();
+
+        // Подписываемся на системное сообщение об изменении контекста данных
+        DataContextChanged += onDataContextChanged;
+    }
+
+    private void onDataContextChanged(object? sender, EventArgs e)
+    {
+        // Подписываемся на события ViewModel, которые необходимо обработать во View
+        if (null != this.DataContext && this.DataContext is MainWindowViewModel)
+        {
+            var context = (MainWindowViewModel)this.DataContext;
+            context.fnWdtUpdateHWVersionCallback = 
+                new MainWindowViewModel.onWdtUpdateHWVersionCallback(onWdtUpdateHWVersionCallback);
+        }
+    }
+```
+
+Вызов метода подписчика через callback-функцию выполняется так:
+
+``` csharp
+if (null != this._fnWdtUpdateHWVersionCallback)
+{
+    Dispatcher.UIThread?.InvokeAsync(() => {
+        this._fnWdtUpdateHWVersionCallback(major, minor);
+    });
+}
+```
+
+В приведённом выше примере, вызов осуществляется из отдельной задачи (потока исполнения), которая была запущена в ModelView. Чтобы избежать ошибок межпоточного взаимодействия, необходимо осуществить вызов, используя InvokeAsync().
