@@ -4,6 +4,8 @@
 
 Инструкция по установке Microsoft.NET на платформе Linux доступна [здесь](./installdotnet.md).
 
+В статье [Interview: Avalonia XPF introduced for WPF on Mac, Linux and eventually mobile](https://devclass.com/2023/02/13/interview-avalonia-xpf-introduced-for-wpf-on-mac-linux-and-eventually-mobile/) by Tim Anderson описывается выпуск коммерческой версии Avalonia XPF для Enterprise-приложений.
+
 ## Различия в пространствах имён
 
 В проектах WPF и Avalonia используются разные пространства имен. Типовой заголовок компонента Avalonia:
