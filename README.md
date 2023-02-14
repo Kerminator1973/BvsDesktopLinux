@@ -4,8 +4,6 @@
 
 Инструкция по установке Microsoft.NET на платформе Linux доступна [здесь](./installdotnet.md).
 
-В статье [Interview: Avalonia XPF introduced for WPF on Mac, Linux and eventually mobile](https://devclass.com/2023/02/13/interview-avalonia-xpf-introduced-for-wpf-on-mac-linux-and-eventually-mobile/) by Tim Anderson описывается выпуск коммерческой версии Avalonia XPF для Enterprise-приложений.
-
 ## Различия в пространствах имён
 
 В проектах WPF и Avalonia используются разные пространства имен. Типовой заголовок компонента Avalonia:
@@ -183,7 +181,7 @@ class Program
 <Button i:Attached.Icon="fas fa-redo" FontSize="20" />
 ```
 
-В библиотеке могут быть использованы префиксы: fas (_solid_), far (_regular_) и fab (_brands_). Префиксы соответствуют группам иконок из бесплатного набора иконок [FontAwesome](https://fontawesome.com/icons). 
+В библиотеке могут быть использованы префиксы: fas (_solid_), far (_regular_) и fab (_brands_). Префиксы соответствуют группам иконок из бесплатного набора иконок [FontAwesome](https://fontawesome.com/icons).
 
 Полный набор иконок содержащихся в компоненте находится в [icons.json](https://github.com/Projektanker/Icons.Avalonia/blob/main/src/Projektanker.Icons.Avalonia.FontAwesome/Assets/icons.json) в папке Assets. В "icons.json" можно выполнять полнотекстовый поиск по ожидаемому названию иконки. Например, для поиска иконки принтера следует искать вхождение слова "print", как узла верхнего уровня:
 
@@ -547,7 +545,7 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 
 Чтобы обойти ограничение, следует использовать вспомогательное зависимое свойство IsBanknoteSelected:
 
-``` csharp 
+``` csharp
 private bool isBanknoteSelected = false;
 public bool IsBanknoteSelected
 {
@@ -587,7 +585,7 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 
 ## Локализация приложений
 
-Механизм локализации работает точно также как и для WPF-приложения в Windows. См.: https://github.com/Kerminator1973/BVSDesktopSupport/blob/main/i18n.md
+[Механизм локализации](https://github.com/Kerminator1973/BVSDesktopSupport/blob/main/i18n.md) работает точно также как и для WPF-приложения в Windows.
 
 Обработка параметров командной строки с целью установки локализации должна быть выполнена до создания главного окна. Фактический код:
 
