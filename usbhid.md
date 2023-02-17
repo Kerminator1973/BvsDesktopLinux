@@ -156,7 +156,7 @@ public static extern void Exit(IntPtr ctx);
 
 Разработанные вручную классы в папке "\src\LibUsbDotNet" используют автоматически сгенерированные структуры и методы, предоставляя удобный, высокоуровневый API.
 
-Обмен данными реализован через метод Transfer, реализованный в файле "UsbEndpointBase.cs". В вызовах, связанных с передачей данных используется буфер обмена, смешение и количество передаваемых байт данных. Буфер данных называется *the caller-allocated buffer*. Возможно, что именно с этим связаны систематические проблемы с использованием LibUsbDotNet - используются упрощённые вызовы Read() и Write(), в которых указывается только буфер, но не указывается offset и длина передаваемых данных.
+Обмен данными реализован через метод Transfer, реализованный в файле "UsbEndpointBase.cs". В вызовах, связанных с передачей данных используется буфер обмена, смешение и количество передаваемых байт данных. Буфер данных называется _the caller-allocated buffer_. Возможно, что именно с этим связаны систематические проблемы с использованием LibUsbDotNet - используются упрощённые вызовы Read() и Write(), в которых указывается только буфер, но не указывается offset и длина передаваемых данных.
 
 Папка "LibUsbDotNet.Tests" содержит всего четыре простых теста библиотеки и, на февраль 2023 года, бесполезна для обеспечения качества продукта.
 
@@ -303,9 +303,9 @@ Hid.Exit(); //Call at the end of your program
 
 Классы USB-устройств:
 
-**HID (Human Interface Device)** *generally requires no Drivers to be installed by the User. It is limited to 64 Bytes/ms (~64K/second) per endpoint used. It is guaranteed to get the timeslot because it uses INT transfers.* Код класса: 3, обычно это: Клавиатура, мышь, джойстик
+**HID (Human Interface Device)** _generally requires no Drivers to be installed by the User. It is limited to 64 Bytes/ms (~64K/second) per endpoint used. It is guaranteed to get the timeslot because it uses INT transfers._ Код класса: 3, обычно это: Клавиатура, мышь, джойстик
 
-**CDC (Comunication Device Class)** *requires drivers (INF file) to be installed and then simulates a serial port. It uses Bulk transfers so theoretically can have good bandwidth but is NOT guaranteed. There are also other code and packet overheads involved.* Код класса: 2, Модем, сетевая карта, COM-порт
+**CDC (Comunication Device Class)** _requires drivers (INF file) to be installed and then simulates a serial port. It uses Bulk transfers so theoretically can have good bandwidth but is NOT guaranteed. There are also other code and packet overheads involved._ Код класса: 2, Модем, сетевая карта, COM-порт
 
 ### Работа приложений под Microsoft Windows
 
