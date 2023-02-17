@@ -33,3 +33,33 @@ Bitmap SopButtonPressed = new Bitmap(assets.Open(new Uri(@"avares://approve/Asse
 ``` csharp
 SopButton.Source = SopButtonPressed;
 ```
+
+Также можно использовать Bitmap как зависимое свойство, например:
+
+``` csharp
+private Bitmap? printerOnlinePicture;
+
+public Bitmap? PrinterOnlinePicture
+{
+    get { return printerOnlinePicture; }
+    set
+    {
+        this.RaiseAndSetIfChanged(ref printerOnlinePicture, value);
+    }
+}
+
+private Bitmap? printerStatusPicture;
+```
+
+В XAML указать зависимость можно следующим образом:
+
+``` sharp
+<Image Source="{Binding PrinterOnlinePicture}" />
+```
+
+Установка свойства в коде может выглядеть так:
+
+``` csharp
+this.PrinterOnlinePicture = new Bitmap(assets.Open(
+    new Uri(@"avares://approve/Assets/138x208_ADM1071_Disabled.png")));
+```
