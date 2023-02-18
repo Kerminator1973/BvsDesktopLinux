@@ -324,13 +324,15 @@ public class MainWindowViewModel : ViewModelBase
                 <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
 ```
 
-В Avalonia для подобных задач придётся использовать отдельный Package [Avalonia XAML Behaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) от Wiesław Šoltés. Package реализует Interaction.Behaviors, DataTriggerBehavior и ChangePropertyAction. Найти библиотеку на nuget.org можно по имени: `Avalonia.Xaml.Behaviors`.
+В Avalonia для подобных задач придётся использовать отдельный Package [Avalonia XAML Behaviors](https://github.com/wieslawsoltes/AvaloniaBehaviors) от Wiesław Šoltés. Package реализует Interaction.Behaviors, DataTriggerBehavior и ChangePropertyAction. Найти библиотеку на nuget.org можно по имени: `Avalonia.Xaml.Behaviors`. Следует заметить, что документация по библиотеке размещена в [разделе Wiki](https://github.com/wieslawsoltes/AvaloniaBehaviors/wiki/DataTriggerBehavior).
 
 Avalonia XAML Behaviors является портом библиотеки **Windows UWP version of XAML Behaviors**.
 
 **XAML Behaviors** - это классы, которые привязаны (_attached_) с органом управления и слушают изменения внутри этого органа управления (обычно, возникающее событие, или изменение свойства). Когда случается ожидаемое событие, срабатывает триггер. Вспомогательный класс -interaction- помещает Behaviors в коллекцию и назначает коллекцию органу управления, как _attached property_.
 
 Существуют совершенно разные виды Behaviors, каждый из которых выполняет некоторые специализированные действия: AutoFocusBehavior, AutoSelectBehavior, EventTriggerBehavior, ViewportBehavior, FadeHeaderBehavior. См. статью: [XAML Behaviors and WinUI 3](https://xamlbrewer.wordpress.com/2023/01/16/xaml-behaviors-and-winui-3/) by Diederik Krols.
+
+DataTriggerBehavior срабатывает, когда данные, связанные с XamlBehaviors соответствуют указанным условиям. В [оригинальном package](https://github.com/microsoft/XamlBehaviors/wiki/DataTriggerBehavior) описываются условия: Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual.
 
 Ниже приведён пример, в котором текст в TextBox зависит от значения свойства IsBanknoteSelected:
 
