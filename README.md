@@ -247,6 +247,25 @@ class Program
 </Style>
 ```
 
+Можно настраивать стили и отдельным элементам DataGrid:
+
+``` csharp
+<Window.Styles>
+	<Style Selector="DataGridCell.statusColumn">
+		<Setter Property="FontSize" Value="24"/>
+		<Setter Property="FontWeight" Value="Bold"/>
+		<Setter Property="Background" Value="Green"/>
+	</Style>
+</Window.Styles>	
+...
+<DataGrid>
+	<DataGrid.Columns>
+		<DataGridTextColumn Header="{x:Static p:Resources.Status}" Binding="{Binding Status}" CellStyleClasses="statusColumn"></DataGridTextColumn>
+	</DataGrid.Columns>
+```
+
+В приведённом выше пример, у всех ячеек колонки статуса будет установлен зелёный фон и bold-текст размером в 24 пункта.
+
 ## Убрать Caption / Title bar
 
 Для того, чтобы убрать Caption / Title bar необходимо установить атрибуты главного окна:
