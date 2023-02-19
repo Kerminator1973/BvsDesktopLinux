@@ -353,7 +353,43 @@ DataTriggerBehavior срабатывает, когда данные, связа�
 </TextBox>
 ```
 
-### Выделить цветом строку DataGrid, используя программный код
+### DataTriggerBehavior и изображения
+
+Поход работает и в случае, если в зависимости от некоторого свойства должно отображаться некоторое изображение:
+
+``` csharp
+<Window xmlns:imaging="clr-namespace:Avalonia.Media.Imaging;assembly=Avalonia.Visuals">
+...
+<Window.Resources>
+    <imaging:Bitmap x:Key="Banknote100">
+        <x:Arguments>
+            <x:String>banknote100.jpg</x:String>
+        </x:Arguments>
+    </imaging:Bitmap>
+    <imaging:Bitmap x:Key="Banknote200">
+        <x:Arguments>
+            <x:String>banknote200.jpg</x:String>
+        </x:Arguments>
+    </imaging:Bitmap>
+</Window.Resources>
+...
+<Image Name="image" Height="100" Margin="0,0,0,10">
+    <int:Interaction.Behaviors>
+        <ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="true">
+            <ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source"
+                                        Value="{StaticResource Banknote100}" />
+        </ia:DataTriggerBehavior>
+        <ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="false">
+            <ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" 
+                                        Value="{StaticResource Banknote200}" />
+        </ia:DataTriggerBehavior>
+    </int:Interaction.Behaviors>
+</Image>
+```
+
+Однако, приведённый вариант работает только в том случае, если изображения находятся по конкретному физическому пути.
+
+## Выделить цветом строку DataGrid, используя программный код
 
 Для выделения некоторой строки DataGrid, в зависимости от значения поля/полей используется обработчик свойства **LoadingRow**:
 
