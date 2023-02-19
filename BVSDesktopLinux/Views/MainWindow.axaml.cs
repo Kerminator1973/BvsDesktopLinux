@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Media;
 
 namespace BvsDesktopLinux.Views
 {
@@ -12,19 +11,16 @@ namespace BvsDesktopLinux.Views
 
         private void DataGrid_OnLoadingRow(object? sender, DataGridRowEventArgs e)
         {
-            // Если в описании купюры значение номинала соответствует "100", то изменяем
-            // фоновый цвет и цвет фона у этой строки.
-            //
-            // Фундаментально подход не правильный, т.к. если потом строки в таблице будут удалены,
-            // а вместо них будут добавлены другие строки, изменённое свойство сохраниться.
-            // Также проблема возникает при сортировке строк таблицы.
-            //
-            // TODO: скорректировать ошибку в использовании подхода
+            // Если в описании купюры значение статуса соответствует "Rejected", то изменяем
+            // стиль отображения строки
             var dataObject = e.Row.DataContext as Models.Banknote;
             if (dataObject != null && dataObject.Status == "Rejected")
             {
-                e.Row.Background = Brushes.Red;
-                e.Row.Foreground = Brushes.White;
+                e.Row.Classes.Add("rejectedStatus");
+            }
+            else
+            {
+                e.Row.Classes.Remove("rejectedStatus");
             }
         }
     }
