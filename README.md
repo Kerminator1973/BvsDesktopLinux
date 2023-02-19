@@ -389,6 +389,30 @@ DataTriggerBehavior срабатывает, когда данные, связа�
 
 Однако, приведённый вариант работает только в том случае, если изображения находятся по конкретному физическому пути.
 
+Если же нам нужно использовать изображения находящиеся в ресурсах приложения, то следует использовать немного другой подход:
+
+``` csharp
+<Window.Resources>
+    <ImageBrush x:Key="Banknote100" Source="avares://BvsDesktopLinux/Assets/banknote100.jpg" />
+    <ImageBrush x:Key="Banknote200" Source="avares://BvsDesktopLinux/Assets/banknote200.jpg" />
+</Window.Resources>
+...
+<Image Name="image" Height="100" Margin="0,0,0,10">
+    <int:Interaction.Behaviors>
+        <ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="true">
+            <ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source"
+                                        Value="{Binding Source={StaticResource Banknote100}, Path=Source}" />
+        </ia:DataTriggerBehavior>
+        <ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="false">
+            <ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" 
+                                        Value="{Binding Source={StaticResource Banknote200}, Path=Source}" />
+        </ia:DataTriggerBehavior>
+    </int:Interaction.Behaviors>
+</Image>
+```
+
+В приведённом выше примере изображение регистрируется как ImageBrush, а триггер извлекает значение поля Source конкретного объекта: `{Binding Source={StaticResource Banknote200}, Path=Source}`. Этот подход можно назвать трюковым, но он вполне эффективно работает.
+
 ## Выделить цветом строку DataGrid, используя программный код
 
 Для выделения некоторой строки DataGrid, в зависимости от значения поля/полей используется обработчик свойства **LoadingRow**:

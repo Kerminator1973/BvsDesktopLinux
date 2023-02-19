@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
 		xmlns:p="clr-namespace:BvsDesktopLinux.Properties"
-	    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="200"
 		xmlns:int="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"		
         x:Class="BvsDesktopLinux.Views.MainWindow"
+	    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="200"
         Icon="/Assets/avalonia-logo.ico"
         Title="BvsDesktopLinux">
 
@@ -19,6 +19,13 @@
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
 	</Window.Styles>
+
+	<Window.Resources>
+		<!-- Определяем картинки, которые будут использованы в Xaml.Behaviors. Используется трюк 
+			с ImageBrush, который вполне работоспособен -->
+		<ImageBrush x:Key="Banknote100" Source="avares://BvsDesktopLinux/Assets/banknote100.jpg" />
+		<ImageBrush x:Key="Banknote200" Source="avares://BvsDesktopLinux/Assets/banknote200.jpg" />
+	</Window.Resources>
 	
 	<Grid ColumnDefinitions="*" RowDefinitions="*" >
 		
@@ -96,22 +103,28 @@
 					</int:Interaction.Behaviors>
 				</TextBox>
 
-				<!-- Однако, вариант с отображением конкретной картинки, в зависимости от конкретного свойства НЕ РАБОТАЕТ
+				<!-- Отображаемое изображение также зависит от значения свойства IsBanknoteSelected,
+					определенного во ViewModel -->
 				<Image Name="image" Height="100" Margin="0,0,0,10">
 					<int:Interaction.Behaviors>
-						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="true">
-							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" Value="avares://BvsDesktopLinux/Assets/banknote100.jpg" />
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" 
+												ComparisonCondition="Equal" Value="true">
+							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source"
+													 Value="{Binding Source={StaticResource Banknote100}, Path=Source}" />
 						</ia:DataTriggerBehavior>
-						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" ComparisonCondition="Equal" Value="false">
-							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" Value="avares://BvsDesktopLinux/Assets/banknote200.jpg" />
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" 
+												ComparisonCondition="Equal" Value="false">
+							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" 
+													 Value="{Binding Source={StaticResource Banknote200}, Path=Source}" />
 						</ia:DataTriggerBehavior>
 					</int:Interaction.Behaviors>
 				</Image>
-				-->
+
 			</StackPanel>
 
 		</Grid>
 
+		<!-- Сообщение, отображаемое в случае невозможности подключения к базе данных -->
 		<TextBlock Text="{Binding DbAccessFailure}" IsVisible="{Binding ErrorBlockVisible}"
 				   Foreground="Red" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
 	</Grid>
