@@ -52,7 +52,7 @@ sw.Stop();
 Console.WriteLine("UsbDevice.OpenUsbDevice():\t{0} ms", (zdelta * 1000.0) / Stopwatch.Frequency);
 ```
 
-Было выявлено, что злодеями являются OpenUsbDevice() и SetConfiguration(), которые в среднем выполняются по 8 и 2 секунды соответственно.
+Было выявлено, что "злодеями" являются OpenUsbDevice() и SetConfiguration(), которые в среднем выполняются по 8 и 2 секунды соответственно.
 
 ### LibUsbDotNet 3.0.0-alpha
 
@@ -180,7 +180,27 @@ namespace LibUsbDotNet.LibUsb
         }
 ```
 
-Если бы потребовалось минимизировать влияние на базовую библиотеку, то следовало бы добавить новый метод SetAutoDetachKernelDriver(), добавив его прототип в **IUsbDevice**, а также в реализацию **UsbDevice**.
+Расширяюшие изменения базовой библиотеки (не требующие изменения кода уже существующих методов), следует добавить новый метод SetAutoDetachKernelDriver(): прототип в **IUsbDevice**, а также в реализацию **UsbDevice**:
+
+``` csharp
+/// <summary>
+/// Sets the auto-detach kernel driver mode for the device.
+/// </summary>
+/// <param name="enable">The true means that the kernel driver has to be detached</param>
+/// <returns>True on success.</returns>
+bool SetAutoDetachKernelDriver(bool enable);
+```
+
+``` csharp
+/// <summary>
+/// Sets the auto-detach kernel driver mode.
+/// </summary>
+public bool SetAutoDetachKernelDriver(bool enable)
+{
+    return NativeMethods.SetAutoDetachKernelDriver(
+        this.DeviceHandle, enable ? 1 : 0) == Error.Success;
+}
+```
 
 Соответственно код получения состояния принтера Xiamen Cashino **CSN-A1K-U** выглядит так:
 
@@ -206,6 +226,9 @@ namespace ConsoleTestWDT
                 {
                     // Открываем соединение с USB HID
                     device.Open();
+
+                    // Устанавливаем режим автоматической выгрузки CUPS-драйвера
+                    device.SetAutoDetachKernelDriver(true);
 
                     // Настройка интерфейса
                     device.ClaimInterface(device.Configs[0].Interfaces[0].Number);
