@@ -419,7 +419,54 @@ DataTriggerBehavior срабатывает, когда данные, связа�
 
 В приведённом выше примере изображение регистрируется как ImageBrush, а триггер извлекает значение поля Source конкретного объекта: `{Binding Source={StaticResource Banknote200}, Path=Source}`. Этот подход можно назвать трюковым, но он вполне эффективно работает.
 
-## Выделить цветом строку DataGrid, используя программный код
+## Выделить цветом строку DataGrid, используя XAML
+
+В теории, можно использовать Avalonia.XAML.Behavior для установки цвета элементов DataGrid по значению некоторого поля. Для этого должен использоваться приблизительно вот такой код:
+
+``` csharp
+<Window.Styles>
+	<Style Selector="DataGridCell.statusColumn">
+		<Setter Property="FontSize" Value="24"/>
+		<Setter Property="(int:Interaction.Behaviors)">
+			<int:BehaviorCollectionTemplate>
+				<int:BehaviorCollection>
+					<ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="Rejected">
+						<ia:ChangePropertyAction TargetObject="DataGridCell" PropertyName="Background" Value="Yellow" />
+					</ia:DataTriggerBehavior>
+				</int:BehaviorCollection>
+			</int:BehaviorCollectionTemplate>
+		</Setter>
+	</Style>
+</Window.Styles>
+...
+<DataGrid AutoGenerateColumns="False" Margin="10"
+		  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}">
+	<DataGrid.Columns>
+		<DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}" />
+		<DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" Binding="{Binding Currency}" />
+		<DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}" />
+		<DataGridTextColumn Header="{x:Static p:Resources.Status}" Binding="{Binding Status}" CellStyleClasses="statusColumn" />
+	</DataGrid.Columns>
+</DataGrid>
+```
+
+В примере использован селектор "DataGridCell.statusColumn", который позволит выбрать только те ячейки таблицы, у которых установлен стиль "statusColumn", т.е. только четвертую колонку (Status). Чтобы селектор применялся не к одному элементу, а ко всем, соответствующим ему, следует добавлить wrapper-ы:
+
+``` csharp
+<int:BehaviorCollectionTemplate>
+    <int:BehaviorCollection>
+        ...
+    </int:BehaviorCollection>
+</int:BehaviorCollectionTemplate>
+```
+
+Триггер и команда изменения свойства написаны корректно, но проблема состоит в том, что в момент привязки используется контекст всего View (т.е. ViewModel), а не контекст конкретной ячейки, или строки. Т.е. если указать какое-то свойство из ViewModel, то изменение свойства "Background" произойдёт вполне успешно.
+
+При использовании Developer Console (F12) можно увидеть, что и у DataGridRow, и у DataGridCell контекст данных установлен на элемент ObservableCollection из ViewModel, а не на ViewModel. Т.е. скорее всего в коде Xaml.Behavior есть ограничения в части работы с DataContext.
+
+Оставил запрос в [GitHub проекта](https://github.com/AvaloniaUI/Avalonia/discussions/8121).
+
+## Выделить цветом строку DataGrid, используя программный код на C/#
 
 Для выделения некоторой строки DataGrid, в зависимости от значения поля/полей используется обработчик свойства **LoadingRow**:
 

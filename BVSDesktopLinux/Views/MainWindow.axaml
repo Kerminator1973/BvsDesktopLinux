@@ -13,11 +13,26 @@
         Title="BvsDesktopLinux">
 
 	<Window.Styles>
+
 		<!-- Определяем стиль для отображения строки DataGrid, в которой отбражается отвергнутая купюра -->
 		<Style Selector="DataGridRow.rejectedStatus">
 			<Setter Property="Background" Value="Red"/>
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
+
+		<!-- Style Selector="DataGridCell.statusColumn">
+			<Setter Property="FontSize" Value="24"/>
+			<Setter Property="(int:Interaction.Behaviors)">
+				<int:BehaviorCollectionTemplate>
+					<int:BehaviorCollection>
+						<ia:DataTriggerBehavior Binding="{Binding Status}" ComparisonCondition="Equal" Value="Rejected">
+							<ia:ChangePropertyAction TargetObject="DataGridCell" PropertyName="Background" Value="Yellow" />
+						</ia:DataTriggerBehavior>
+					</int:BehaviorCollection>
+				</int:BehaviorCollectionTemplate>
+			</Setter>
+		</Style -->
+
 	</Window.Styles>
 
 	<Window.Resources>
@@ -78,14 +93,15 @@
 				</ToolTip.Tip>
 			</Button>
 
-			<DataGrid AutoGenerateColumns="False" Margin="10" LoadingRow="DataGrid_OnLoadingRow"
+			<!-- DataGrid AutoGenerateColumns="False" Margin="10" LoadingRow="DataGrid_OnLoadingRow" -->
+			<DataGrid AutoGenerateColumns="False" Margin="10"
 					  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
 					  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}" />
 					<DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" Binding="{Binding Currency}" />
 					<DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" Binding="{Binding Denomination}" />
-					<DataGridTextColumn Header="{x:Static p:Resources.Status}" Binding="{Binding Status}" />
+					<DataGridTextColumn Header="{x:Static p:Resources.Status}" Binding="{Binding Status}" CellStyleClasses="statusColumn" />
 				</DataGrid.Columns>
 			</DataGrid>
 
