@@ -93,8 +93,7 @@
 				</ToolTip.Tip>
 			</Button>
 
-			<!-- DataGrid AutoGenerateColumns="False" Margin="10" LoadingRow="DataGrid_OnLoadingRow" -->
-			<DataGrid AutoGenerateColumns="False" Margin="10"
+			<DataGrid AutoGenerateColumns="False" Margin="10" LoadingRow="DataGrid_OnLoadingRow"
 					  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
 					  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
 				<DataGrid.Columns>
