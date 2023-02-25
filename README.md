@@ -46,6 +46,34 @@
 
 В использовании компилируемых привязок есть ограничения.
 
+### Применение компилируемых привязок в DataGrid
+
+Мы можем использовать CompiledBindings и совместно с DataGrid:
+
+``` csharp
+<Window xmlns="https://github.com/avaloniaui" ...
+		xmlns:local="using:BvsDesktopLinux.Models"
+		x:DataType="vm:MainWindowViewModel"
+		x:CompileBindings="True">
+...
+    <DataGrid AutoGenerateColumns="False" Items="{CompiledBinding Banknotes}"
+            SelectedItem="{Binding SelectedBanknote}">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="{x:Static p:Resources.NoteId}" 
+                                Binding="{CompiledBinding Id}" x:DataType="local:Banknote" />
+            <DataGridTextColumn Header="{x:Static p:Resources.NoteCurrency}" 
+                                Binding="{CompiledBinding Currency}" x:DataType="local:Banknote" />
+            <DataGridTextColumn Header="{x:Static p:Resources.NoteDenomination}" 
+                                Binding="{CompiledBinding Denomination}" x:DataType="local:Banknote" />
+            <DataGridTextColumn Header="{x:Static p:Resources.Status}" 
+                                Binding="{CompiledBinding Status}" x:DataType="local:Banknote" 
+                                CellStyleClasses="statusColumn" />
+        </DataGrid.Columns>
+    </DataGrid>
+```
+
+В определении DataGridTextColumn следует заменить слово "Binding" на "CompiledBinding", а также указать класс, в котором определен используемый в привязке атрибут класса: `x:DataType="local:Banknote"`
+
 ## Различия в пространствах имён
 
 В проектах WPF и Avalonia используются разные пространства имен. Типовой заголовок компонента Avalonia:
