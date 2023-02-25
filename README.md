@@ -8,6 +8,44 @@
 
 При сборке Avalonia в Debug-режиме, автоматически добавляется Developer Tools - инструмент, который позволяет просматривать Logical Tree, а также Visual Tree приложения Avalonia. Доступ к этому инструменту предоставляется при нажатии кнопки F12.
 
+## Компилируемые привязки (CompileBindings)
+
+В Avalonia можно использовать [скомпилированные Bindings](https://docs.avaloniaui.net/docs/data-binding/compiledbindings). Это даёт два преимущества:
+
+- проверка связей на этапе компиляции
+- скомпилированное связывание не использует Reflections и работает быстрее
+
+Чтобы активировать этот механизм нужно явным образом указать, где находятся данные и флаг компиляции привязок:
+
+``` csharp
+<Window xmlns="https://github.com/avaloniaui" ...
+		x:DataType="vm:MainWindowViewModel"
+		x:CompileBindings="True">
+```
+
+Устанавливать компиляруемую привязку можно и не в корне документа, а в конкретных элементах, например:
+
+``` csharp
+<!-- Set DataType inside the Binding-markup -->
+<TextBox Text="{Binding MailAddress, DataType={x:Type vm:MyViewModel}}" />
+```
+
+Заметим, что компилируемые привязки не работают для Command и конкретно для них этот механизм нужно отключать:
+
+``` csharp
+<Button Command="{Binding DeleteBanknote}" x:CompileBindings="False">
+```
+
+Также в командах мы можем явно указать другой тип привязок:
+
+``` csharp
+<!-- We cannot use compiled bindings to bind to methods, so we use ReflectionBinding instead -->
+<Button Content="Send an E-Mail"
+        Command="{ReflectionBinding SendEmailCommand}" />
+```
+
+В использовании компилируемых привязок есть ограничения.
+
 ## Различия в пространствах имён
 
 В проектах WPF и Avalonia используются разные пространства имен. Типовой заголовок компонента Avalonia:
