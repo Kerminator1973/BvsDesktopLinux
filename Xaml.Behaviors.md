@@ -15,6 +15,14 @@
 
 Avalonia XAML Behaviors является портом библиотеки **Windows UWP version of XAML Behaviors**.
 
+Установить Avalonia XAML Behaviors можно из командной строки:
+
+``` shell
+nuget install Avalonia.Xaml.Behaviors
+```
+
+Если утилита nuget не была загружена ранее, её можно получить [по ссылке](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe)
+
 **XAML Behaviors** - это классы, которые привязаны (_attached_) к органу управления и слушают изменения внутри него (подписываются на событие, в том числе, на событие изменения свойств). Когда случается ожидаемое событие, выполняется триггер.
 
 Xaml.Behaviors это подход, который применялся в WPF и UWP. Например, в UWP существуют совершенно разные виды Behaviors, каждый из которых выполняет некоторые специализированные действия: AutoFocusBehavior, AutoSelectBehavior, EventTriggerBehavior, ViewportBehavior, FadeHeaderBehavior. См. статью: [XAML Behaviors and WinUI 3](https://xamlbrewer.wordpress.com/2023/01/16/xaml-behaviors-and-winui-3/) by Diederik Krols. Очень часть Xaml.Behaviors используются для типовой настройки форм, или элементов пользовательского интерфейса.
