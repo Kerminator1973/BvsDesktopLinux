@@ -196,6 +196,16 @@ private void DataGrid_OnLoadingRow(object? sender, DataGridRowEventArgs e)
 
 ## Обсуждения по описанным выше проблемам
 
-Обсуждение в bug tracker-е [Avalonia: Trigger like solution for DataGridCell using DataTriggerBehavior (Avalonia.Xaml.Interactivity)](https://github.com/AvaloniaUI/Avalonia/discussions/8121). В результате обсуждения, появилось ещё одно решение задачи - с [использованием класса, реализующего интерфейс IValueConverter](./converters.md)
+Обсуждение в bug tracker-е [Avalonia: Trigger like solution for DataGridCell using DataTriggerBehavior (Avalonia.Xaml.Interactivity)](https://github.com/AvaloniaUI/Avalonia/discussions/8121). В результате обсуждения, появилось ещё одно решение задачи - с [использованием класса, реализующего интерфейс IValueConverter](./converters.md). Однако, в этом варианте, потенциально, возникает существенный drawback, который состоит в многократном вызове метода Convert() в том случае, если мы хотим установить фоновый цвет всей строки, а не одного элемента. Ниже дано разъяснение по данной проблеме c примером:
+
+``` csharp
+<Style Selector="DataGridCell" x:DataType="models:Banknote">
+    <Setter Property="Background" Value="{Binding Status, Converter={StaticResource StatusConverter}}" />
+</Style>
+```
+
+Допустим, в таблице есть восемь колонок и 100 строк. В случае использования приведённого выше селектора метод Convert() будет вызван 800 раз, т.е. для каждой ячейки. Теоретически, это в 8 раз больше вызовов, чем при использовании атрибута **LoadingRow**.
+
+### Дополнительно
 
 Информирование о результатах поиска на [StackOverflow - Avalonia UI C# XAML WPF - Adjust data grid row color based on column value](https://stackoverflow.com/questions/61589139/avalonia-ui-c-sharp-xaml-wpf-adjust-data-grid-row-color-based-on-column-value/75554247#75554247).
