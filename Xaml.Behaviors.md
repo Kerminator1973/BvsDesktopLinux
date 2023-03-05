@@ -196,6 +196,6 @@ private void DataGrid_OnLoadingRow(object? sender, DataGridRowEventArgs e)
 
 ## Обсуждения по описанным выше проблемам
 
-Обсуждение в bug tracker-е [Avalonia: Trigger like solution for DataGridCell using DataTriggerBehavior (Avalonia.Xaml.Interactivity)](https://github.com/AvaloniaUI/Avalonia/discussions/8121).
+Обсуждение в bug tracker-е [Avalonia: Trigger like solution for DataGridCell using DataTriggerBehavior (Avalonia.Xaml.Interactivity)](https://github.com/AvaloniaUI/Avalonia/discussions/8121). В результате обсуждения, появилось ещё одно решение задачи - с [использованием класса, реализующего интерфейс IValueConverter](./converters.md)
 
 Информирование о результатах поиска на [StackOverflow - Avalonia UI C# XAML WPF - Adjust data grid row color based on column value](https://stackoverflow.com/questions/61589139/avalonia-ui-c-sharp-xaml-wpf-adjust-data-grid-row-color-based-on-column-value/75554247#75554247).
