@@ -7,10 +7,23 @@
 		xmlns:p="clr-namespace:BvsDesktopLinux.Properties"
 		xmlns:int="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"		
+		xmlns:converter="using:BvsDesktopLinux.Converters"
+		xmlns:models="using:BvsDesktopLinux.Models"
         x:Class="BvsDesktopLinux.Views.MainWindow"
 	    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="200"
         Icon="/Assets/avalonia-logo.ico"
         Title="BvsDesktopLinux">
+
+	<Window.Resources>
+		<!-- Определяем картинки, которые будут использованы в Xaml.Behaviors. Используется трюк 
+			с ImageBrush, который вполне работоспособен -->
+		<ImageBrush x:Key="Banknote100" Source="avares://BvsDesktopLinux/Assets/banknote100.jpg" />
+		<ImageBrush x:Key="Banknote200" Source="avares://BvsDesktopLinux/Assets/banknote200.jpg" />
+
+		<!-- Создаём статический объект, который умеет вычислять значение атрибута, используется
+			значение другого атрибута -->
+		<converter:StatusConverter x:Key="StatusConverter" />
+	</Window.Resources>
 
 	<Window.Styles>
 
@@ -20,7 +33,13 @@
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
 
-		<!-- Style Selector="DataGridCell.statusColumn">
+		<!-- Управлять цветом фона можно используя Converter
+		<Style Selector="DataGridCell" x:DataType="models:Banknote">
+			<Setter Property="Background" Value="{Binding Status, Converter={StaticResource StatusConverter}}" />
+		</Style> -->
+
+		<!-- Вариант с использованием Avalonia.Xaml.Behavior пока не работает. Вместо него используется LoadingRow
+		<Style Selector="DataGridCell.statusColumn">
 			<Setter Property="FontSize" Value="24"/>
 			<Setter Property="(int:Interaction.Behaviors)">
 				<int:BehaviorCollectionTemplate>
@@ -31,16 +50,9 @@
 					</int:BehaviorCollection>
 				</int:BehaviorCollectionTemplate>
 			</Setter>
-		</Style -->
+		</Style> -->
 
 	</Window.Styles>
-
-	<Window.Resources>
-		<!-- Определяем картинки, которые будут использованы в Xaml.Behaviors. Используется трюк 
-			с ImageBrush, который вполне работоспособен -->
-		<ImageBrush x:Key="Banknote100" Source="avares://BvsDesktopLinux/Assets/banknote100.jpg" />
-		<ImageBrush x:Key="Banknote200" Source="avares://BvsDesktopLinux/Assets/banknote200.jpg" />
-	</Window.Resources>
 	
 	<Grid ColumnDefinitions="*" RowDefinitions="*" >
 		
