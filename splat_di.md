@@ -7,3 +7,4 @@ Splat's Service Location сервис решает несколько пробл
 - Service Location быстрый и у него почти нет overhead
 - он включает несколько разных моделей управления жизненным циклом приложений ("создавать новый каждый раз", singleton, laze)
 
+Дополнительно стоит почитать: https://github.com/reactiveui/Splat.DI.SourceGenerator
