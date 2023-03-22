@@ -620,6 +620,16 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 
 Заметим, что в Avalonia UI используется удобный helper-метод **RaiseAndSetIfChanged**().
 
+Так же следует обратить внимание, что при определении зависимых свойств, может быть использован более современный синтаксис getter-ов/setter-ов:
+
+``` csharp
+private bool _CIMMainPanelVisible = true;
+public bool CIMMainPanelVisible {
+    get => _CIMMainPanelVisible;
+    set => this.RaiseAndSetIfChanged(ref _CIMMainPanelVisible, value);
+}
+```
+
 ## Локализация приложений
 
 [Механизм локализации](https://github.com/Kerminator1973/BVSDesktopSupport/blob/main/i18n.md) работает точно также как и для WPF-приложения в Windows.
