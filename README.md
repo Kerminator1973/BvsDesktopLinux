@@ -584,20 +584,15 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 
 ``` csharp
 private bool isBanknoteSelected = false;
-public bool IsBanknoteSelected
-{
-    get { return isBanknoteSelected; }
-    set
-    {
-        this.RaiseAndSetIfChanged(ref isBanknoteSelected, value);
-    }
+public bool IsBanknoteSelected {
+    get => return isBanknoteSelected;   // Новый стрелочный синтаксис
+    set => this.RaiseAndSetIfChanged(ref isBanknoteSelected, value); }
 }
 
 private Banknote? selectedBanknote = null;
 public Banknote? SelectedBanknote {
-    get { return selectedBanknote; }
-    set
-    {
+    get { return selectedBanknote; }    // Традиционный синтаксис определения setter/getter
+    set {
         this.RaiseAndSetIfChanged(ref selectedBanknote, value);
 
         // Информируем подписчиков (метод CanDeleteBanknote) об изменении состояния
@@ -619,16 +614,6 @@ public bool CanDeleteBanknote(/* CommandParameter */object parameter)
 ```
 
 Заметим, что в Avalonia UI используется удобный helper-метод **RaiseAndSetIfChanged**().
-
-Так же следует обратить внимание, что при определении зависимых свойств, может быть использован более современный синтаксис getter-ов/setter-ов:
-
-``` csharp
-private bool _CIMMainPanelVisible = true;
-public bool CIMMainPanelVisible {
-    get => _CIMMainPanelVisible;
-    set => this.RaiseAndSetIfChanged(ref _CIMMainPanelVisible, value);
-}
-```
 
 ## Локализация приложений
 
