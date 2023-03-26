@@ -17,9 +17,11 @@
     </Design.DataContext>
 
 	<StackPanel>
-	    <controls:Child SomeString="{Binding PropertyA}" />
-	    <controls:Child SomeString="{Binding PropertyB}" />
-	    <controls:Child SomeString="{Binding PropertyC}" />
+		<!-- В данном примере, мы выполняем привязку свойства SomeString органа управления со свойством
+		    текущего пользовательского элемента -->
+	    <controls:Child SomeString="{Binding PropertyA}" Background="Red" />
+	    <controls:Child SomeString="{Binding PropertyB}" Background="Yellow" />
+	    <controls:Child SomeString="{Binding PropertyC}" Background="Green" />
 	</StackPanel>
 
 </Window>
