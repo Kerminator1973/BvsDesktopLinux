@@ -9,7 +9,7 @@
 		<!-- Заметим, что свойство в связвании мы используем свойство Background
 			установливаемое в родительском элементе -->
 		<TextBlock Text="{Binding $parent[UserControl].SomeString}"
-				   Background="{Binding $parent[UserControl].Background}"
+				   Background="{Binding Background}"
 				   Padding="10 0 0 0" />
 	</Border>
 </UserControl>

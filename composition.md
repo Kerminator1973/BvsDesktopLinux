@@ -82,7 +82,7 @@ public String DeviceName
 }
 ```
 
-Чтобы иметь возможность использовать это свойство его необходимо зарегистрировать:
+Чтобы иметь возможность использовать это свойство его необходимо зарегистрировать особенным способом:
 
 ``` csharp
 public static readonly StyledProperty<String> DeviceNameProperty =
@@ -92,8 +92,6 @@ public static readonly StyledProperty<String> DeviceNameProperty =
     );
 ```
 
-Следует обратить внимание, что в дочернем элементе контекс данных установлен на текущий компонент: `DataContext = this;`
-
 Эквивалентом **StyledProperty** в WPF является [DependencyProperty](https://github.com/Kerminator1973/BVSDesktopSupport/blob/main/ui_composition.md).
 
 ## Если в дочернем элементе не установлен DataContext?
@@ -101,6 +99,78 @@ public static readonly StyledProperty<String> DeviceNameProperty =
 В этом случае, при попытке доступа к DataContext в любых методах, за исключением конструктора, будет получен контекст данных родительского элемента. Такое поведение очень удобно для разработчика, т.к. достаточно определить в родительском элементе объект - контекст данных и доступ к нему из дочерних элементов будет осуществляться без каких-либо дополнительных действий.
 
 Это фундаментально важная особенность поведения Avalonia и WPF: один контекст данных совместно используется несколькими разными объектами, которые используются в качестве композиционной группы (View + UserControls). Хотя, при необходимости, конкретный элемент пользовательского элемента может получить свой собственный контекст данных.
+
+## Контекст данных - связывание со свойствами родительского элемента
+
+В приведённом выше примере,  в дочернем элементе контекс данных установлен на текущий компонент: `DataContext = this;`. Это не является обязательным. Нам, например, может потребоваться использовать несколько органов управления одного типа, но связать атрибуты этих дочерних элементов со свойствами родительского органа управления. В этом случае, следует использовать контекст данных родительского элемента и не устанавливать в дочернем элементе контекст данных (удалив строку `DataContext = this;`).
+
+Использование контекста родительского элемента позволяет обращаться к свойствам родительского элемента через специальный селектор `$parent[UserControl]`.
+
+Допустим, что мы определили следующий родительский элемент:
+
+``` csharp
+<Window ...
+    xmlns:controls="clr-namespace:ComposeUI.Views">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<StackPanel>
+	    <controls:Child SomeString="{Binding PropertyA}" Background="Red" />
+	    <controls:Child SomeString="{Binding PropertyB}" Background="Yellow" />
+	    <controls:Child SomeString="{Binding PropertyC}" Background="Green" />
+	</StackPanel>
+</Window>
+```
+
+В контексте данных родительского элемента мы определяем три свойства: PropertyA, PropertyB и PropertyC:
+
+``` csharp
+private string _propertyA = "Avalonia";
+
+public string PropertyA
+{
+    get => _propertyA;
+    set => this.RaiseAndSetIfChanged(ref _propertyA, value);
+}
+```
+
+Соответственно, в дочернем элементе мы должны определить свойство **SomeString** и использовать его в разметке:
+
+``` csharp
+public partial class Child : UserControl
+{
+    public Child()
+    {
+        InitializeComponent();
+    }
+
+    public string SomeString
+    {
+        get => this.GetValue(SomeStringProperty);
+        set => this.SetValue(SomeStringProperty, value);
+    }
+
+    public static readonly StyledProperty<string> SomeStringProperty =
+        AvaloniaProperty.Register<Child, string>(nameof(SomeString));
+}
+```
+
+Пример XAML:
+
+``` csharp
+<UserControl ...
+             x:Class="ComposeUI.Views.Child">
+	<Border BorderBrush="Black" BorderThickness="0,0,0,3">
+		<TextBlock Text="{Binding $parent[UserControl].SomeString}"
+				   Background="{Binding Background}"
+				   Padding="10,0,0,0" />
+	</Border>
+</UserControl>
+```
+
+Расшифровать селектор `$parent[UserControl]` можно так: в родительском элементе (parent) взять текущий дочерний UserControl и связать его со свойством **Background**.
 
 ## Передать сообытие родительскому элементу
 
