@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BvsDesktopLinux", "BvsDesktopLinux\BvsDesktopLinux.csproj", "{93A6A9AD-426B-4CA2-9A73-4FBDB966F58A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BvsDesktopUnitTest", "BvsDesktopUnitTest\BvsDesktopUnitTest.csproj", "{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BvsDesktopUnitTest", "BvsDesktopUnitTest\BvsDesktopUnitTest.csproj", "{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComposeUI", "ComposeUI\ComposeUI.csproj", "{2F931D0D-57FD-4945-B303-05E5226618D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B05A1C95-D6B1-4C96-839F-7712D5AB7D84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F931D0D-57FD-4945-B303-05E5226618D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F931D0D-57FD-4945-B303-05E5226618D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F931D0D-57FD-4945-B303-05E5226618D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F931D0D-57FD-4945-B303-05E5226618D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
