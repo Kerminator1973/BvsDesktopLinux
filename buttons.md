@@ -38,6 +38,12 @@ void bConfigurationApprove(object sender, RoutedEventArgs args)
 <Button Content="Дальше >>" Click="bConfigurationApprove" />
 ```
 
+## Аспекты визуализации кнопок
+
+По умолчанию, в Avalonia у кнопки установлено значение **Padding**. Если необходимо реализовать некоторый явно обозначенный border у кнопки, то Padding нужно установить в нулевое значение.
+
+Для закругления краёв кнопки следует изменить свойство **CornerRadius**.
+
 ## CheckBox - это тоже Button
 
 Связать состояние CheckBox со свойством можно используя атрибут **IsChecked**:
