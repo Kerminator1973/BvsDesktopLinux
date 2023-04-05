@@ -4,6 +4,8 @@
 
 Инструкция по установке Microsoft.NET на платформе Linux доступна [здесь](./installdotnet.md).
 
+Обзорная статья [Avalonia .NET UI Framework Picks Up Steam as Milestone Release Nears](https://visualstudiomagazine.com/articles/2023/04/04/avalonia.aspx) из Visual Studio Magazine.
+
 ## Просмотр дерева элементов пользовательского интерфейса
 
 При сборке Avalonia в Debug-режиме, автоматически добавляется Developer Tools - инструмент, который позволяет просматривать Logical Tree, а также Visual Tree приложения Avalonia. Доступ к этому инструменту предоставляется при нажатии кнопки F12.
