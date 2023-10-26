@@ -2,7 +2,9 @@
 
 Порт приложения BVS Desktop в Linux с использованием Avalonia.
 
-Инструкция по установке Microsoft.NET на платформе Linux доступна [здесь](./installdotnet.md).
+**Инструкция по установке Microsoft.NET** на платформе Linux доступна [здесь](./installdotnet.md).
+
+Приложение, собранное в Microsoft Windows посредством Visual Studio, из состоящее из exe и dll-файлов может быть скопировано и запущено в Linux. Исполняемые файлы (exe/dll) платформы Microsoft.NET содержат байт-код и транслируются в нативный код непосредственно на целевой платформе. Т.е. для дистрибьюции приложения без исходных текстов достаточно выполнить операцию Publish в Windows-среде и передать соответствующие exe и dll файлы заказчику.
 
 Обзорная статья [Avalonia .NET UI Framework Picks Up Steam as Milestone Release Nears](https://visualstudiomagazine.com/articles/2023/04/04/avalonia.aspx) из Visual Studio Magazine.
 
