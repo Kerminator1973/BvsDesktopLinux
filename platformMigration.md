@@ -1,5 +1,7 @@
 # Миграция на актуальные платформы
 
+Разработчики Avalonia предоставили [инструкцию по миграции](https://docs.avaloniaui.net/docs/stay-up-to-date/upgrade-from-0.10) с Avalonia 0.10 на Avalonia 11.
+
 В мае 2024 года была осуществлена попытка миграции приложений с .NET6/Avalonia 10 на .NET8/Avalonia 11. Портирование не было осуществлена в один момент - возникла целая группа проблем, которые пришлось решать.
 
 У всех трёх проектов был установлен ".Net 8" в качестве "Target Framework", но обновить зависимости не удалось - в процессе обновления, потребовалось дополнительно установить два компонента: **Microsoft.CodeAnalysis.Common** и **Microsoft.CodeAnalysis.CSharp**. После их добавления зависимости успешно обновились.
@@ -33,6 +35,8 @@
 </Application.DataTemplates>
 
 Проблемы, связанные с использованием IControl и ещё нескольких интерфейсов в ViewLocator исчезли.
+
+Вполне возможно, что мы было достаточно переименовать IControl в Control.
 
 Важно понимать, что [ViewLocator](https://docs.avaloniaui.net/ru/docs/concepts/view-locator) сохранился в Avalonia 11, но он является не обязательным (mandatory), а вспомогательным инструментальным средством.
 
@@ -95,6 +99,6 @@ public static AppBuilder BuildAvaloniaApp()
 
 ## Прочее
 
-После внесения перечисленных выше изменений приложения запустились и заработали. Тем не менее, осталось нерешённая проблема:
+После внесения перечисленных выше изменений приложения запустились и заработали. Тем не менее, осталось нерешённая проблема: `[Binding]Error in binding to 'Avalonia.Controls.Button'.'Command': 'Could not find a matching property accessor for 'RestoreCounts' on 'BvsDesktopLinux.ViewModels.MainWindowViewModel''(Button #40311937)`
 
-- [Binding]Error in binding to 'Avalonia.Controls.Button'.'Command': 'Could not find a matching property accessor for 'RestoreCounts' on 'BvsDesktopLinux.ViewModels.MainWindowViewModel''(Button #40311937)
+В интерфейсу существует четыре командных кнопки, три из которых работают. Четвертая - RestoreCounts требует передачи в качестве параметра названия валюты и, вероятно, именно это является причиной ошибки. Если убрать параметризацию, но оставить возврщаемое значение, то кнопка начинает работать.
