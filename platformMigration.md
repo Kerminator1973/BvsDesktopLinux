@@ -22,15 +22,39 @@
 
 В Avalonia 10 не требовалось указывать атрибут **RequestedThemeVariant**, без указания которого клиентская область окна просто не отразиться будет отрисовываться.
 
+Следует заметить, что свойство ThemeVariant, по умолчанию, соответствует системной теме (system theme variant). Однако, можно явно установить такие темы, как "Dark", или "Light".
+
 ## ViewLocator - не нужен?
 
-Не очень понятная ситуация с ViewLocator, который, вроде бы уже не нужен в Avalonia 11. Удалив файл "ViewLocator.cs", а тауже убраз из "App.axaml" следующий код:
+Чтобы избежать проблем, связанных с ViewLocator, я удалил файл "ViewLocator.cs", а так же убрал из "App.axaml" активацию механизм:
 
 <Application.DataTemplates>
-        <local:ViewLocator/>
+	<local:ViewLocator/>
 </Application.DataTemplates>
 
 Проблемы, связанные с использованием IControl и ещё нескольких интерфейсов в ViewLocator исчезли.
+
+Важно понимать, что [ViewLocator](https://docs.avaloniaui.net/ru/docs/concepts/view-locator) сохранился в Avalonia 11, но он является не обязательным (mandatory), а вспомогательным инструментальным средством.
+
+Этот инструмент используется для того, чтобы помочь разработчику структурировать приложение используя шаблон проектирования Model-View-ViewModel (MVVM).
+
+View Locator является механизмом Avalonia, который используется для того, чтобы связать View с соответствующим ему ViewModel.
+
+View Locator использует договорённости наименования ( naming conventions), чтобы выполнить mapping типов ViewModel к типам View. По умолчанию, он заменяет все места использования строки "ViewModel" на полное имя типа ViewModel с "View".
+
+Для примера: ViewModel имеет имя MyApplication.**ViewModels.ExampleViewModel**, View Locator выполнит поиск View с именем MyApplication.**Views.ExampleView**.
+
+Очень часто View Locator используется совместно со свойством DataContext.
+
+View Locator реализует интерфейс **IDataTemplate**.
+
+По умолчанию, View Locator размещается в "App.axaml":
+
+```csharp
+<Application.DataTemplates>
+	<local:ViewLocator />
+</Application.DataTemplates>
+```
 
 ## Проблемы с MainWindow
 
