@@ -17,11 +17,14 @@ namespace BvsDesktopLinux
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
-                .UsePlatformDetect()
-                .LogToTrace()
-                .UseReactiveUI()
-                .WithIcons(container => container           // FontAwesome: https://github.com/Projektanker/Icons.Avalonia
-                    .Register<FontAwesomeIconProvider>());
+        {
+            IconProvider.Current    // FontAwesome: https://github.com/Projektanker/Icons.Avalonia
+                .Register<FontAwesomeIconProvider>();
+
+            return AppBuilder.Configure<App>()
+                        .UsePlatformDetect()
+                        .LogToTrace()
+                        .UseReactiveUI();
+        }
     }
 }

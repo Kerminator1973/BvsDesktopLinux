@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
-using Microsoft.EntityFrameworkCore;    // Нужен в случае использования Migrate()
+using Microsoft.EntityFrameworkCore;
+using Npgsql.PostgresTypes;    // Нужен в случае использования Migrate()
 
 namespace BvsDesktopLinux.ViewModels
 {
@@ -154,8 +155,10 @@ namespace BvsDesktopLinux.ViewModels
         }
 
         // Обработчик нажатия на кнопку в пользовательском интерфейсе приложения
-        public int RestoreCounts(string currency)
+        public int RestoreCounts()
         {
+            string currency = "RUB";
+
             // Сбрасываем старые пересчёты
             Banknotes.Clear();
 

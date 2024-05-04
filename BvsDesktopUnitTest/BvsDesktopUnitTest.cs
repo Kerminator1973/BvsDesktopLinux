@@ -18,17 +18,17 @@ namespace BvsDesktopTests
         [TestMethod]
         public void TestRestoreCounts()
         {
-            var count = mainViewModel.RestoreCounts("CNY");
+            var count = mainViewModel.RestoreCounts();
 
-            // Должно быть четыре элемента, а валюта каждого - "CNY" (китайские юани)
+            // Должно быть четыре элемента, а валюта каждого - "RUB"
             Assert.IsTrue(count == 4);
-            Assert.IsTrue(mainViewModel.Banknotes[0].Currency == "CNY");
+            Assert.IsTrue(mainViewModel.Banknotes[0].Currency == "RUB");
         }
 
         [TestMethod]
         public void TestDeleteBanknote()
         {
-            var count = mainViewModel.RestoreCounts("CNY");
+            var count = mainViewModel.RestoreCounts();
 
             Assert.IsTrue(count == 4);
 

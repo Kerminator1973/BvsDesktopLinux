@@ -106,7 +106,7 @@
 			</Button>
 
 			<DataGrid AutoGenerateColumns="False" Margin="10" LoadingRow="DataGrid_OnLoadingRow"
-					  Items="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
+					  ItemsSource="{Binding Banknotes}" SelectedItem="{Binding SelectedBanknote}"
 					  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="{x:Static p:Resources.NoteId}" Binding="{Binding Id}" />
@@ -134,14 +134,14 @@
 					определенного во ViewModel -->
 				<Image Name="image" Height="100" Margin="0,0,0,10">
 					<int:Interaction.Behaviors>
-						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" 
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}"
 												ComparisonCondition="Equal" Value="true">
 							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source"
 													 Value="{Binding Source={StaticResource Banknote100}, Path=Source}" />
 						</ia:DataTriggerBehavior>
-						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}" 
+						<ia:DataTriggerBehavior Binding="{Binding IsBanknoteSelected}"
 												ComparisonCondition="Equal" Value="false">
-							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source" 
+							<ia:ChangePropertyAction TargetObject="{Binding #image}" PropertyName="Source"
 													 Value="{Binding Source={StaticResource Banknote200}, Path=Source}" />
 						</ia:DataTriggerBehavior>
 					</int:Interaction.Behaviors>
