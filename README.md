@@ -561,11 +561,17 @@ public static class CustomCommands
 public void RestoreCounts(string currency)
 {
     Banknotes.Clear();
-    Banknotes.Add(new Banknote { Id = 4, Currency = currency, Denomination = "200" });
-    Banknotes.Add(new Banknote { Id = 5, Currency = currency, Denomination = "100" });
-    Banknotes.Add(new Banknote { Id = 6, Currency = currency, Denomination = "2000" });
-    Banknotes.Add(new Banknote { Id = 7, Currency = currency, Denomination = "5000" });
+    Banknotes.Add(new() { Id = 4, Currency = currency, Denomination = "200" });
+    Banknotes.Add(new() { Id = 5, Currency = currency, Denomination = "100" });
+    Banknotes.Add(new() { Id = 6, Currency = currency, Denomination = "2000" });
+    Banknotes.Add(new() { Id = 7, Currency = currency, Denomination = "5000" });
 }
+```
+
+Заметим, что конструкция new() создаёт объект осуществляя выведение типа (_type inference_) из контекста. В данном случае, объект добавляется в контейнер, содержащий банкноты, что позволяет установить тип создаваемого объекта - Banknote:
+
+```csharp
+public ObservableCollection<Banknote> Banknotes { get; }
 ```
 
 По другому работает механизм **CanExecute** - в Avalonia достаточно просто определить метод такой же, как и у команды, но начинающийся с Can:
