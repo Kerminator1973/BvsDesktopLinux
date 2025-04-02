@@ -49,10 +49,10 @@ dotnet sln add BvsDesktopLinux.csproj
 
 Сразу после команды new указывается имя шаболна. Список шаблонов можно посмотреть командой: `dotnet new list`. Установить шаблоны Avalonia можно командой `dotnet new install Avalonia.Templates`, см. [шаблоны Avalonia](https://github.com/AvaloniaUI/avalonia-dotnet-templates)
 
-Если нужно указать конкретную платформу, то это можно сделать используя параметр `-F`:
+Если нужно указать конкретную платформу, то это можно сделать используя параметр `-f`:
 
 ``` shell
-dotnet new avalonia.mvvm -F "net6.0" -o approve -n approve
+dotnet new avalonia.mvvm -f "net6.0" -o approve -n approve
 ```
 
 Список параметров для конкретного шаблона можно посмотреть командой (пример): `dotnet new avalonia.mvvm -h`
