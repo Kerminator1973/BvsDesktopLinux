@@ -3,11 +3,17 @@
 Установить Runtime:
 
 ``` shell
-sudo apt-get update && \
-  sudo apt-get install -y dotnet6
+sudo apt-get update && sudo apt-get install -y dotnet6
 ```
 
 Установить SDK: `sudo apt-get install -y dotnet-sdk-6.0`
+
+Для установки .NET Core 8 следует использовать команду:
+
+```shell
+sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+```
+>ВНИМАНИЕ! НИ В КОЕМ СЛУЧАЕ НЕЛЬЗЯ УСТАНАВЛИВАТЬ .NET ЧЕРЕЗ SNAP! Причина - в контейнере Snap для .NET систематически оказываются некорректные зависимости и, например, Avalonia-приложения не запускаются из-за отсутствия библиотек Skia.
 
 В случае возникновения ошибок из-за конфликтов зависимостей, может потребоваться выполнить настройку канала доступа к компонентам .NET:
 
