@@ -69,3 +69,28 @@ namespace approve.CustomControls
 <local:D210Sensors Grid.Row="0" SourceImage="avares://approve/Assets/357x170_250BA.png" 
     HorizontalAlignment="Right" VerticalAlignment="Stretch" Height="170" Width="357" Opacity="950" />
 ```
+
+## Добавление дополнительных свойств
+
+Мы можем определить custom-ные свойства этого органа управления:
+
+```csharp
+// Регистрируем свойство типа Boolean (Sensor1)
+public static readonly StyledProperty<bool> IsSensor1Property =
+    AvaloniaProperty.Register<D210Sensors, bool>(
+        nameof(Sensor1),
+        defaultValue: false);
+
+// Определяем свойство Sensor1
+public bool Sensor1
+{
+    get => GetValue(IsSensor1Property);
+    set => SetValue(IsSensor1Property, value);
+}
+```
+
+Указать свойство можно через параметр:
+
+```csharp
+<local:D210Sensors Sensor1="true"... />
+```
