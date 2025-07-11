@@ -172,6 +172,42 @@ public partial class Child : UserControl
 
 Расшифровать селектор `$parent[UserControl]` можно так: в родительском элементе (parent) взять текущий дочерний UserControl и связать его со свойством **Background**. Этот селектор является своеобразным трюком AvaloniaUI - если вместо него указать просто имя свойства SomeString, внешнее связывание (в родительской XAML разметке) работать не будет.
 
+>Обратиться к свойству родительского элемента также можно используя связываение через **RelativeSource**:
+>
+>```csharp
+><Run Foreground="Black" Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" FontSize="24"/>
+>```
+>
+>В данном случае поле Text элемента Run (вывод текста) устанавливается из свойства Text элемента-предшественника (выше в иерархии), тип которого - UserControl.
+>
+>Полный код:
+>
+>```csharp
+><UserControl xmlns="https://github.com/avaloniaui"
+>             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+>             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+>             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+>             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+>             x:Class="approve.CustomControls.KeyboardButton">
+>	<Button Padding="0" CornerRadius="10">
+>		<Border BorderBrush="Black" BorderThickness="3" CornerRadius="10" Padding="5">
+>			<TextBlock Classes="h4"
+>                       VerticalAlignment="Center" HorizontalAlignment="Center">
+>				<Run Foreground="Black" Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" FontSize="24"/>
+>			</TextBlock>
+>		</Border>
+>	</Button>
+></UserControl>
+>```
+>
+>Использование UserControl устанавливается так:
+>
+>```csharp
+><local:KeyboardButton Grid.Column="4" Grid.Row="0" Text="4" />
+><local:KeyboardButton Grid.Column="5" Grid.Row="0" Text="Backspace" />
+><local:KeyboardButton Grid.Column="6" Grid.Row="0" Text="Close" />
+>```
+
 ## Передать сообытие родительскому элементу
 
 При использовании композиции важно иметь возможность передать событие дочернего элемента родительскому элементу. Предположим, что у нас есть два блока разметки, которые должны сменять друг друга при нажатии некоторых управляющих элементов. Верстка родительского элемента может выглядеть следующим образом:
