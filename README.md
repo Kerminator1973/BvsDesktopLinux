@@ -738,6 +738,27 @@ doc.Close();
 
 Печать документов на принтере может быть осуществлена посредством CUPS-драйвера, доступ к которому возможен либо через [команды shell](./printing.md), либо посредством API на C++ (см. `#include <cups/cups.h>`).
 
+### Альтернативные решения
+
+Рекомендуется для ознакомления статья [PDF Reporting in .NET With HTML Templates and PuppeteerSharp](https://www.milanjovanovic.tech/blog/pdf-reporting-in-dotnet-with-html-templates-and-puppeteersharp) by Milan Jovanović. 
+
+Решить задачу можно используя библиотеки [PuppeteerSharp](https://www.puppeteersharp.com/) + [Handlebars.NET](https://github.com/Handlebars-Net/Handlebars.Net). Можно использовать и другие шаблонизаторы, например: Razor, или [Scriban](https://github.com/scriban/scriban).
+
+Плюсы:
+
+- Богатая стилизация с помощью CSS
+- Легкий просмотр/отладка в браузере
+- Поддержка диаграмм/изображений через JS/CSS
+- Полный контроль над макетом
+
+Минусы:
+
+- Требуется установка браузера (Chromium)
+- Медленнее, чем нативные библиотеки PDF
+- Намного сложнее в настройки
+
+Альтернативные коммерческие библиотки: QuestPdf, IronPdf.
+
 ## Создание инсталлятора для Linux
 
 Для создания deb-файла использовался package: https://www.nuget.org/packages/dotnet-deb. Официальный сайт проекта: https://github.com/quamotion/dotnet-packaging
